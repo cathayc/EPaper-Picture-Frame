@@ -95,7 +95,7 @@ def display_images(imgPath, loop = False):
                 sys.exit()
             
             # Want this to be looping if the loop = True
-            while count < len(images) or loop = True:
+            while count < len(images) or loop == True:
                 # Mod this
                 single_image = images[count % len(images)]
                 # Get current images
