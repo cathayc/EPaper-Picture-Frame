@@ -108,7 +108,6 @@ def display_images(imgPath, refresh_second, loop = False):
         print('Clearing')
         epd.Clear()
 
-        # Pick a random .mp4 video in your video directory
         ordered_images = list(filter(supported_filetype, os.listdir(imagedir)))
         images = random.sample(ordered_images, len(ordered_images))
         if not images:
@@ -117,7 +116,7 @@ def display_images(imgPath, refresh_second, loop = False):
         
         # Want this to be looping if the loop = True
         count = 0
-        while count < len(images) and loop:
+        while (count < len(images) and not loop) or loop:
             print(count)
             # Mod this
             single_image = images[count % len(images)]
