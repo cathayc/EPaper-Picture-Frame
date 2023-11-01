@@ -48,7 +48,7 @@ def supported_filetype(file):
     return ext.lower() in(".png", ".jpg")
 
 def main(call_leo, random_call_leo, refresh_second=10):
-    print(f"refresh second: {refresh_second})
+    print(f"refresh second: {refresh_second}")
     signal.signal(signal.SIGTERM, exithandler)
     signal.signal(signal.SIGINT, exithandler)
     setup_gpio()  # Set up the GPIO pins
