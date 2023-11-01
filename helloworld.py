@@ -63,37 +63,7 @@ def check_and_delete_images(imgPath):
             os.remove(image_path)
 
         # Refresh the list of images in t
-def main(call_leo, random_call_leo, refresh_second):
-    print(f"refresh second: {refresh_second}")
-    signal.signal(signal.SIGTERM, exithandler)
-    signal.signal(signal.SIGINT, exithandler)
-    setup_gpio()  # Set up the GPIO pins
-    
-    # First, call leo and save images
-    if call_leo:
-        # Calling to Leo with user prompt
-        imgPath = "Images/PromptLeoImages"
-        # prompt = call_leo
-        # call_and_save(prompt, imgPath)
-        check_and_delete_images(imgPath)
-        display_images(imgPath, refresh_second)
-    elif random_call_leo:
-        # Calling to Leo with random prompt
-        imgPath = "Images/RandomLeoImages"
-        prompt = choose_random_words()
-        print(f"Your random words turned out to be: {prompt}")
-        call_and_save(prompt, imgPath)
-        check_and_delete_images(imgPath)
-        display_images(imgPath, refresh_second)
-    else:
-        # Default to love images
-        imgPath = "Images/OurLoveImages"
-        display_images(imgPath, refresh_second)
-    print("Playing default now")
-    imgPath = "Images/OurLoveImages"
-    display_images(imgPath, refresh_second, loop = True)
-    
-    
+
 def display_images(imgPath, refresh_second, loop = False):
     # Ensure this is the correct path to your video folder
     imagedir = os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath)
@@ -144,6 +114,36 @@ def display_images(imgPath, refresh_second, loop = False):
     finally:
         cleanup_gpio()  # Clean up the GPIO pins
 
+def main(call_leo, random_call_leo, refresh_second):
+    print(f"refresh second: {refresh_second}")
+    signal.signal(signal.SIGTERM, exithandler)
+    signal.signal(signal.SIGINT, exithandler)
+    setup_gpio()  # Set up the GPIO pins
+    
+    # First, call leo and save images
+    if call_leo:
+        # Calling to Leo with user prompt
+        imgPath = "Images/PromptLeoImages"
+        prompt = call_leo
+        call_and_save(prompt, imgPath)
+        check_and_delete_images(imgPath)
+        display_images(imgPath, refresh_second)
+    elif random_call_leo:
+        # Calling to Leo with random prompt
+        imgPath = "Images/RandomLeoImages"
+        prompt = choose_random_words()
+        print(f"Your random words turned out to be: {prompt}")
+        call_and_save(prompt, imgPath)
+        check_and_delete_images(imgPath)
+        display_images(imgPath, refresh_second)
+    else:
+        # Default to love images
+        imgPath = "Images/OurLoveImages"
+        display_images(imgPath, refresh_second)
+    print("Playing default now")
+    imgPath = "Images/OurLoveImages"
+    display_images(imgPath, refresh_second, loop = True)
+ 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Example of a feature flag in Python")
     parser.add_argument("--call-leo", type=str, help="Call Leonardo AI with the specified prompt")
