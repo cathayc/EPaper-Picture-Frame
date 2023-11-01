@@ -99,7 +99,7 @@ def display_images(imgPath, refresh_second, loop = False):
         
         # Want this to be looping if the loop = True
         count = 0
-        while count < len(images) or loop == True:
+        while count < len(images) and loop:
             print(count)
             # Mod this
             single_image = images[count % len(images)]
