@@ -38,7 +38,7 @@ def choose_random_words(num_words=5):
 def setup_gpio():
     # Set up the GPIO pin as an output
     GPIO.setmode(GPIO.BCM)
-    your_pin_number = 17  # Replace with your actual GPIO pin number
+    your_pin_number = 20  # Replace with your actual GPIO pin number
     GPIO.setup(your_pin_number, GPIO.OUT)
 
 # Define the cleanup_gpio function
@@ -57,7 +57,6 @@ def supported_filetype(file):
     return ext.lower() in(".png", ".jpg")
 
 def main(call_leo, random_call_leo):
-    print(call_leo)
     signal.signal(signal.SIGTERM, exithandler)
     signal.signal(signal.SIGINT, exithandler)
     setup_gpio()  # Set up the GPIO pins
