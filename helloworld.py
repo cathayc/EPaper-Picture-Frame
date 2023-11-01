@@ -69,7 +69,7 @@ def main(call_leo, random_call_leo, refresh_second):
     else:
         # Default to love images
         imgPath = "Images/OurLoveImages"
-        display_images(imgPath)
+        display_images(imgPath, refresh_second)
     imgPath = "Images/OurLoveImages"
     display_images(imgPath, refresh_second, loop = True)
     
@@ -91,6 +91,7 @@ def display_images(imgPath, refresh_second, loop = False):
 
             # Pick a random .mp4 video in your video directory
             images = (list(filter(supported_filetype, os.listdir(imagedir))))
+            print(random.shuffle(images))
             if not images:
                 print("No images found")
                 sys.exit()
