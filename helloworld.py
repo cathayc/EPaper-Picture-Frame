@@ -116,7 +116,7 @@ def display_images(imgPath, refresh_second, loop = False):
             epd.display(epd.getbuffer(bmp_image))
             count= count + 1
             time.sleep(refresh_second)
-            if count % len(images) = 0:
+            if count % len(images) == 0:
                 epd.reset()
         
         print('Closing...')
