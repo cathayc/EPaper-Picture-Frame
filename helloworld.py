@@ -71,6 +71,7 @@ def main(call_leo, random_call_leo, refresh_second):
         # Default to love images
         imgPath = "Images/OurLoveImages"
         display_images(imgPath, refresh_second)
+    print("Playing default now")
     imgPath = "Images/OurLoveImages"
     display_images(imgPath, refresh_second, loop = True)
     
