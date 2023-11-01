@@ -47,9 +47,8 @@ def supported_filetype(file):
     _, ext = os.path.splitext(file)
     return ext.lower() in(".png", ".jpg")
 
-def check_and_delete_images(imagedir):
-    # List all image files in the directory
-    images = os.listdir(imagedir)
+def check_and_delete_images(imgPath):
+    images = os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath)
     # Check if the number of images exceeds 10
     if len(images) > 10:
         # Sort the images by creation time (you may need to implement your own sorting logic)
@@ -75,7 +74,7 @@ def main(call_leo, random_call_leo, refresh_second):
         imgPath = "Images/PromptLeoImages"
         prompt = call_leo
         call_and_save(prompt, imgPath)
-        check_and_delete_images(os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath))
+        check_and_delete_images(imgPath)
         display_images(imgPath, refresh_second)
     elif random_call_leo:
         # Calling to Leo with random prompt
@@ -83,7 +82,7 @@ def main(call_leo, random_call_leo, refresh_second):
         prompt = choose_random_words()
         print(f"Your random words turned out to be: {prompt}")
         call_and_save(prompt, imgPath)
-        check_and_delete_images(os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath))
+        check_and_delete_images(imgPath)
         display_images(imgPath, refresh_second)
     else:
         # Default to love images
