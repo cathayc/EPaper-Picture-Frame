@@ -92,7 +92,8 @@ def display_images(imgPath, refresh_second, loop = False):
 
             # Pick a random .mp4 video in your video directory
             images = (list(filter(supported_filetype, os.listdir(imagedir))))
-            print(random.shuffle(images))
+            shuffled_list = random.sample(images, len(images))
+            print(random.shuffle(shuffled_list))
             if not images:
                 print("No images found")
                 sys.exit()
