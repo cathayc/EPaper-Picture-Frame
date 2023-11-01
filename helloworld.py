@@ -58,23 +58,23 @@ def main(call_leo, random_call_leo, refresh_second):
         imgPath = "Images/PromptLeoImages"
         prompt = call_leo
         call_and_save(prompt, imgPath)
-        display_images(imgPath)
+        display_images(imgPath, refresh_second)
     elif random_call_leo:
         # Calling to Leo with random prompt
         imgPath = "Images/RandomLeoImages"
         prompt = choose_random_words()
         print(f"Your random words turned out to be: {prompt}")
         call_and_save(prompt, imgPath)
-        display_images(imgPath)
+        display_images(imgPath, refresh_second)
     else:
         # Default to love images
         imgPath = "Images/OurLoveImages"
         display_images(imgPath)
     imgPath = "Images/OurLoveImages"
-    display_images(imgPath, loop = True)
+    display_images(imgPath, refresh_second, loop = True)
     
     
-def display_images(imgPath, loop = False):
+def display_images(imgPath, refresh_second, loop = False):
     # Ensure this is the correct path to your video folder
     imagedir = os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath)
     print(imagedir)
