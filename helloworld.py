@@ -91,9 +91,8 @@ def display_images(imgPath, refresh_second, loop = False):
             epd.Clear()
 
             # Pick a random .mp4 video in your video directory
-            images = list(filter(supported_filetype, os.listdir(imagedir)))
-            shuffled_list = random.sample(images, len(images))
-            print(shuffled_list)
+            ordered_images = list(filter(supported_filetype, os.listdir(imagedir)))
+            images = random.sample(ordered_images, len(ordered_images))
             if not images:
                 print("No images found")
                 sys.exit()
