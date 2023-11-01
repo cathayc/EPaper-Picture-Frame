@@ -1,0 +1,123 @@
+#!/usr/bin/python3
+# -*- coding:utf-8 -*-
+
+# *************************
+# ** Before running this **
+# ** code ensure you've  **
+# ** turned on SPI on    **
+# ** your Raspberry Pi   **
+# ** & installed the     **
+# ** Waveshare library   **
+# *************************
+
+import os
+import time
+import sys
+import random
+import signal
+import ffmpeg
+import argparse
+import RPi.GPIO as GPIO
+from PIL import Image
+from fractions import Fraction
+from leonardo import call_and_save as call_and_save
+from waveshare_epd import epd7in5_V2 as epd_driver
+import random
+
+def choose_random_words(num_words=5):
+    # Open and read the file containing the list of words
+    with open("word_list.txt", "r") as file:
+        words = file.read().splitlines()
+
+    # Choose 5 random words from the list
+    random_words = random.sample(words, num_words)
+    random_sentence = " ".join(random_words)
+    return random_sentence
+
+# Define the setup_gpio function
+def setup_gpio():
+    # Set up the GPIO pin as an output
+    GPIO.setmode(GPIO.BCM)
+    your_pin_number = 17  # Replace with your actual GPIO pin number
+    GPIO.setup(your_pin_number, GPIO.OUT)
+
+# Define the cleanup_gpio function
+def cleanup_gpio():
+    # Clean up GPIO resources
+    GPIO.cleanup()
+
+def exithandler(signum, frame):
+    try:
+        epd_driver.epdconfig.module_exit()
+    finally:
+        sys.exit()
+
+def supported_filetype(file):
+    _, ext = os.path.splitext(file)
+    return ext.lower() in(".png", ".jpg")
+
+def main(call_leo, random_call_leo):
+    print(call_leo)
+    signal.signal(signal.SIGTERM, exithandler)
+    signal.signal(signal.SIGINT, exithandler)
+    setup_gpio()  # Set up the GPIO pins
+    
+    imgPath = "Images/OurLoveImages"
+    if call_leo:
+        imgPath = "Images/PromptLeoImages"
+        prompt = call_leo
+        call_and_save(prompt, imgPath)
+    elif random_call_leo:
+        imgPath = "Images/RandomLeoImages"
+        prompt = choose_random_words()
+        print(f"Your random words turned out to be: {prompt}")
+        call_and_save(prompt, imgPath)
+
+    # Ensure this is the correct path to your video folder
+    imagedir = os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath)
+    if not os.path.isdir(imagedir):
+        os.mkdir(imagedir)
+    epd = epd_driver.EPD()
+    width = epd.width
+    height = epd.height
+
+    try:
+        while 1:
+            print('Initiating')
+            epd.init()
+            print('Clearing')
+            epd.Clear()
+
+            # Pick a random .mp4 video in your video directory
+            images = list(filter(supported_filetype, os.listdir(imagedir)))
+            if not images:
+                print("No images found")
+                sys.exit()
+            for single_image in images:
+                currentImage = os.path.join(imagedir, single_image)
+                image = Image.open(currentImage)
+                bmp_image = image.convert("RGB")
+
+                print('Current image name: ', currentImage)
+                bmp_image = bmp_image.resize((width, height))
+                print('Successfully converted to bmp image')
+
+                print('Displaying')
+                epd.display(epd.getbuffer(bmp_image))
+                time.sleep(15)
+            
+            print('Closing...')
+            epd.close()
+
+    except KeyboardInterrupt:
+        pass
+    finally:
+        cleanup_gpio()  # Clean up the GPIO pins
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Example of a feature flag in Python")
+    parser.add_argument("--call-leo", type=str, help="Call Leonardo AI with the specified prompt")
+    parser.add_argument("--random-call-leo", action="store_true", help="Call Leonardo AI with random generated tai and cathy words")
+    args = parser.parse_args()
+
+    main(args.call_leo, args.random_call_leo)
