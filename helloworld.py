@@ -89,10 +89,10 @@ def main(call_leo, random_call_leo, refresh_second):
             for single_image in images:
                 currentImage = os.path.join(imagedir, single_image)
                 image = Image.open(currentImage)
-                bmp_image = image.convert("RGB")
-
                 print('Current image name: ', currentImage)
-                bmp_image = bmp_image.resize((width, height))
+                image = image.resize((width, height))
+
+                bmp_image = image.convert("RGB")
                 print('Successfully converted to bmp image')
 
                 print('Displaying')
