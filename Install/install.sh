@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-GIT_REPO=https://github.com/TomWhitwell/SlowMovie
+GIT_REPO=https://github.com/cathayc/ai_picture_frame
 GIT_BRANCH=main
 SKIP_DEPS=false
 
