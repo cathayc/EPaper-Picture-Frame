@@ -100,6 +100,7 @@ def display_images(imgPath, refresh_second, loop = False):
             # Want this to be looping if the loop = True
             count = 0
             while count < len(images) or loop == True:
+                print(count)
                 # Mod this
                 single_image = images[count % len(images)]
                 # Get current images
@@ -113,7 +114,7 @@ def display_images(imgPath, refresh_second, loop = False):
 
                 print('Displaying')
                 epd.display(epd.getbuffer(bmp_image))
-                count+=1
+                count= count + 1
                 time.sleep(refresh_second)
             
             print('Closing...')
