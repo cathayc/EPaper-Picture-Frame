@@ -47,7 +47,7 @@ def supported_filetype(file):
     _, ext = os.path.splitext(file)
     return ext.lower() in(".png", ".jpg")
 
-def main(call_leo, random_call_leo, refresh_second=10):
+def main(call_leo, random_call_leo, refresh_second):
     print(f"refresh second: {refresh_second}")
     signal.signal(signal.SIGTERM, exithandler)
     signal.signal(signal.SIGINT, exithandler)
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Example of a feature flag in Python")
     parser.add_argument("--call-leo", type=str, help="Call Leonardo AI with the specified prompt")
     parser.add_argument("--random-call-leo", action="store_true", help="Call Leonardo AI with random generated tai and cathy words")
-    parser.add_argument("--refresh-second", type=int, help="Add the number of seconds you'd like the paper to refresh at")
+    parser.add_argument("--refresh-second", type=int, default = 15, help="Add the number of seconds you'd like the paper to refresh at")
     args = parser.parse_args()
 
     main(args.call_leo, args.random_call_leo, args.refresh_second)
