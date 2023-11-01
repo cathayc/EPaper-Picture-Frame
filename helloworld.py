@@ -72,9 +72,9 @@ def main(call_leo, random_call_leo, refresh_second):
     # First, call leo and save images
     if call_leo:
         # Calling to Leo with user prompt
-        imgPath = "Images/PromptLeoImages"
-        prompt = call_leo
-        call_and_save(prompt, imgPath)
+        # imgPath = "Images/PromptLeoImages"
+        # prompt = call_leo
+        # call_and_save(prompt, imgPath)
         check_and_delete_images(imgPath)
         display_images(imgPath, refresh_second)
     elif random_call_leo:
