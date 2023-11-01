@@ -85,41 +85,42 @@ def display_images(imgPath, refresh_second, loop = False):
     height = epd.height
 
     try:
-        while 1:
-            print('Initiating')
-            epd.init()
-            print('Clearing')
-            epd.Clear()
+        print('Initiating')
+        epd.init()
+        print('Clearing')
+        epd.Clear()
 
-            # Pick a random .mp4 video in your video directory
-            ordered_images = list(filter(supported_filetype, os.listdir(imagedir)))
-            images = random.sample(ordered_images, len(ordered_images))
-            if not images:
-                print("No images found")
-                sys.exit()
-            
-            # Want this to be looping if the loop = True
-            count = 0
-            while count < len(images) or loop == True:
-                print(count)
-                # Mod this
-                single_image = images[count % len(images)]
-                # Get current images
-                currentImage = os.path.join(imagedir, single_image)
-                image = Image.open(currentImage)
-                print('Current image name: ', currentImage)
-                image = image.resize((width, height))
+        # Pick a random .mp4 video in your video directory
+        ordered_images = list(filter(supported_filetype, os.listdir(imagedir)))
+        images = random.sample(ordered_images, len(ordered_images))
+        if not images:
+            print("No images found")
+            sys.exit()
+        
+        # Want this to be looping if the loop = True
+        count = 0
+        while count < len(images) or loop == True:
+            print(count)
+            # Mod this
+            single_image = images[count % len(images)]
+            # Get current images
+            currentImage = os.path.join(imagedir, single_image)
+            image = Image.open(currentImage)
+            print('Current image name: ', currentImage)
+            image = image.resize((width, height))
 
-                bmp_image = image.convert("RGB")
-                print('Successfully converted to bmp image')
+            bmp_image = image.convert("RGB")
+            print('Successfully converted to bmp image')
 
-                print('Displaying')
-                epd.display(epd.getbuffer(bmp_image))
-                count= count + 1
-                time.sleep(refresh_second)
-            
-            print('Closing...')
-            epd.reset()
+            print('Displaying')
+            epd.display(epd.getbuffer(bmp_image))
+            count= count + 1
+            time.sleep(refresh_second)
+            if count % len(images) = 0:
+                epd.reset()
+        
+        print('Closing...')
+        epd.reset()
 
     except KeyboardInterrupt:
         pass
