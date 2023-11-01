@@ -77,6 +77,7 @@ def main(call_leo, random_call_leo, refresh_second):
 def display_images(imgPath, loop = False):
     # Ensure this is the correct path to your video folder
     imagedir = os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath)
+    print(imagedir)
     epd = epd_driver.EPD()
     width = epd.width
     height = epd.height
