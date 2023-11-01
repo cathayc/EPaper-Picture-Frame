@@ -100,7 +100,7 @@ def main(call_leo, random_call_leo, refresh_second):
                 time.sleep(refresh_second)
             
             print('Closing...')
-            epd.close()
+            epd.reset()
 
     except KeyboardInterrupt:
         pass
