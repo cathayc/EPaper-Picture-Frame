@@ -52,24 +52,31 @@ def main(call_leo, random_call_leo, refresh_second):
     signal.signal(signal.SIGINT, exithandler)
     setup_gpio()  # Set up the GPIO pins
     
-    # Default to love images
-    imgPath = "Images/OurLoveImages"
-    # Calling to Leo with user prompt
+    # First, call leo and save images
     if call_leo:
+        # Calling to Leo with user prompt
         imgPath = "Images/PromptLeoImages"
         prompt = call_leo
         call_and_save(prompt, imgPath)
-    # Calling to Leo with random prompt
+        display_images(imgPath)
     elif random_call_leo:
+        # Calling to Leo with random prompt
         imgPath = "Images/RandomLeoImages"
         prompt = choose_random_words()
         print(f"Your random words turned out to be: {prompt}")
         call_and_save(prompt, imgPath)
-
+        display_images(imgPath)
+    else:
+        # Default to love images
+        imgPath = "Images/OurLoveImages"
+        display_images(imgPath)
+    imgPath = "Images/OurLoveImages"
+    display_images(imgPath, loop = True)
+    
+    
+def display_images(imgPath, loop = False):
     # Ensure this is the correct path to your video folder
     imagedir = os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath)
-    if not os.path.isdir(imagedir):
-        os.mkdir(imagedir)
     epd = epd_driver.EPD()
     width = epd.width
     height = epd.height
@@ -82,11 +89,16 @@ def main(call_leo, random_call_leo, refresh_second):
             epd.Clear()
 
             # Pick a random .mp4 video in your video directory
-            images = list(filter(supported_filetype, os.listdir(imagedir)))
+            images = random.shuffle(list(filter(supported_filetype, os.listdir(imagedir))))
             if not images:
                 print("No images found")
                 sys.exit()
-            for single_image in images:
+            
+            # Want this to be looping if the loop = True
+            while count < len(images) or loop = True:
+                # Mod this
+                single_image = images[count % len(images)]
+                # Get current images
                 currentImage = os.path.join(imagedir, single_image)
                 image = Image.open(currentImage)
                 print('Current image name: ', currentImage)
