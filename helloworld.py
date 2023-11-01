@@ -56,7 +56,7 @@ def check_and_delete_images(imgPath):
         images.sort(key=lambda x: os.path.getctime(os.path.join(imagedir, x)))
 
         # Delete the earliest 5 images and remove them from the directory
-        for i in range(5):
+        for i in range(len(images)-5):
             # Build the full file path to the image
             image_path = os.path.join(imagedir, images[i])
             # Delete the image file
