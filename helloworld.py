@@ -1,15 +1,6 @@
 #!/usr/bin/python3
 # -*- coding:utf-8 -*-
 
-# *************************
-# ** Before running this **
-# ** code ensure you've  **
-# ** turned on SPI on    **
-# ** your Raspberry Pi   **
-# ** & installed the     **
-# ** Waveshare library   **
-# *************************
-
 import os
 import time
 import sys
@@ -61,11 +52,14 @@ def main(call_leo, random_call_leo):
     signal.signal(signal.SIGINT, exithandler)
     setup_gpio()  # Set up the GPIO pins
     
+    # Default to love images
     imgPath = "Images/OurLoveImages"
+    # Calling to Leo with user prompt
     if call_leo:
         imgPath = "Images/PromptLeoImages"
         prompt = call_leo
         call_and_save(prompt, imgPath)
+    # Calling to Leo with random prompt
     elif random_call_leo:
         imgPath = "Images/RandomLeoImages"
         prompt = choose_random_words()
