@@ -16,7 +16,7 @@ def generate_image(prompt):
     # Define the payload for the API request
 	payload = {
 		"height": 512,
-		"modelId": "9666d20a-894f-4edd-9433-81e8558c831f",
+		"modelId": "6bef9f1b-29cb-40c7-b9df-32b51c1f67d3",
 		"prompt": prompt,
 		"width": 512
 	}
