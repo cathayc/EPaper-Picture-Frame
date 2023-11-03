@@ -51,7 +51,7 @@ def check_and_delete_images(imgPath):
     imagedir = os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath)
     images = list(filter(supported_filetype, os.listdir(imagedir)))
     # Check if the number of images exceeds 10
-    if len(images) > 10:
+    if len(images) > 6:
         # Sort the images by creation time (you may need to implement your own sorting logic)
         images.sort(key=lambda x: os.path.getctime(os.path.join(imagedir, x)))
 
