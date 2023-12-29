@@ -1,4 +1,6 @@
-# SlowMovie
+# Introduction
+
+This project stands on the shoulders of giants from [Tom Whitwell's SlowMovie project](https://github.com/TomWhitwell/SlowMovie)
 
 ![](Extras/img.jpg)
 
