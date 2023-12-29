@@ -1,6 +1,9 @@
 # Introduction
 
-This project stands on the shoulders of giants from [Tom Whitwell's SlowMovie project](https://github.com/TomWhitwell/SlowMovie)
+This project is derived from [Tom Whitwell's SlowMovie project](https://github.com/TomWhitwell/SlowMovie), whose purpose is to take in a movie and play it slowly, frame by frame, on an ePaper display.
+
+Instead, this project 
+
 
 ![](Extras/img.jpg)
 
