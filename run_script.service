@@ -3,6 +3,7 @@ Description=Run Script Service
 After=network.target
 
 [Service]
+Environment="PATH=/home/cathychang/AI-Picture-Frame/.venv/bin:%(ENV_PATH)s"
 ExecStart=/home/cathychang/AI-Picture-Frame/run_script.sh
 Restart=always
 RestartSec=5
