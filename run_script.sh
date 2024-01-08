@@ -2,5 +2,5 @@
 
 while true; do
     python3 helloworld.py
-    sleep 30m
+    sleep 1800
 done
