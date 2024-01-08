@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Script Service
+After=network.target
+
+[Service]
+ExecStart=run_script.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
