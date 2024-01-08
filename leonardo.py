@@ -2,8 +2,7 @@ import requests
 import time
 import os
 
-base_url = "https://cloud.leonardo.ai/api/rest/v1/generations"
-api_key = "c0f126f6-ef4c-4423-9c63-69322dd029ea"
+from config import base_url, api_key
 
 def generate_image(prompt):
 
