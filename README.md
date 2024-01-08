@@ -8,18 +8,15 @@ This project is born out of curiousity into how ePaper displays and AI picture g
 
 - [Install](#install)
 - [Usage](#usage)
-  - [E-ink Display Customization](#e-ink-display-customization)
-  - [Running as a Service](#running-as-a-service)
+  - [Normal Usage](#normal-usage)
+  - [Prompted AI Images](#prompted-ai-images)
+  - [Random Phrases AI images](#random-phrases-ai-images)
 
 ## Install
 
-**Note:** Some of these installation instructions takes from Tom Whitell's [SlowMovie](https://github.com/TomWhitwell/SlowMovie) setup instructions. These installation instructions assume you have access to your Raspberry Pi and that you have the hardware set up properly. See the [Medium post](https://debugger.medium.com/how-to-build-a-very-slow-movie-player-in-2020-c5745052e4e4) for more complete instructions.
+**Note:** Some of these installation instructions takes from Tom Whitell's [SlowMovie](https://github.com/TomWhitwell/SlowMovie) setup instructions. These installation instructions assume you have access to your Raspberry Pi and that you have the hardware set up properly. See the [Medium post](https://debugger.medium.com/how-to-build-a-very-slow-movie-player-in-2020-c5745052e4e4) for more complete instructions. AI Picture Frame requires [Python 3](https://www.python.org). It uses [FFmpeg](https://ffmpeg.org) via [ffmpeg-python](https://github.com/kkroening/ffmpeg-python) for video processing, [Pillow](https://python-pillow.org) for image processing, and [Omni-EPD](https://github.com/robweber/omni-epd) for loading the correct e-ink display driver. [ConfigArgParse](https://github.com/bw2/ConfigArgParse) is used for configuration and argument handling.
 
-SlowMovie requires [Python 3](https://www.python.org). It uses [FFmpeg](https://ffmpeg.org) via [ffmpeg-python](https://github.com/kkroening/ffmpeg-python) for video processing, [Pillow](https://python-pillow.org) for image processing, and [Omni-EPD](https://github.com/robweber/omni-epd) for loading the correct e-ink display driver. [ConfigArgParse](https://github.com/bw2/ConfigArgParse) is used for configuration and argument handling.
-
-_Note that the `omni-epd` package installs Waveshare and Inky EPD driver libraries._
 On the Raspberry Pi:
-
 0. Make sure SPI is enabled
    * Run `sudo raspi-config`
    * Navigate to `Interface Options` > `SPI`
@@ -39,14 +36,30 @@ On the Raspberry Pi:
    * Run `python3 helloworld.py`. If everything's installed properly, this should start playing all the pictures from the `Images/OurLoveImages` directory.
    * If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 helloworld.py --refresh-second 10`.
 
-## Generate AI Images
+## Usage
+There are three types of usages:
+1. Slowly display pre-uploaded images
+2. Given a prompt, generate AI images and slowly display them
+3. Generate AI images by randomly selecting phrases from a .txt file, then slowly display them
 
-To generate AI images, you will need to create a leonardo.ai account. After doing so, you will obtain your own API key. Store this in the config file:
+### Normal Usage
+
+The normal usage takes images from `Images/OurLoveImages` and slowly displays them. Take the following steps:
+1. Run `python3 helloworld.py`. If everything's installed properly, this should start playing all the pictures from the `Images/OurLoveImages` directory.
+2. If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 helloworld.py --refresh-second 10`.
+
+### Prompted AI Images
+0. To generate AI images, you will need to create a leonardo.ai account. After doing so, you will obtain your own API key. Store this in the config file:
 1. Navigate to config.py file at root, and replace `"YOUR-API-KEY"` with your own API key.
 2. Call leonardo:
    * Think of a prompt. Example: `cat chase horse in wild west`
    * Add prompt to your call: `python3 helloworld.py --call-leo "cat chase horse in wild west"`
    * The program will now call leonardo with your prompt, download the images, and display on your epaper display.
+
+### Random Phrases AI images
+Repeat steps 0 and 1 from above. Then, 
+1. modify `word_list.txt` with your phrases.
+2. Type `python3 helloworld.py --random-call-leo`
 
 ## Making this script run at startup
 
