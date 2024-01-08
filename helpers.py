@@ -6,11 +6,12 @@ def download_images_from_folder(folder_id, output_directory):
     # List files in the folder using the folder ID
     file_list_url = f'https://drive.google.com/drive/folders/{folder_id}'
     file_list = gdown.download(file_list_url, quiet=False)
-    print(file_list)
+    print(f'file list: {file_list}')
 
     # Read the file list and download images
     with open(file_list, 'r') as file:
         for line in file:
+            print(f'line: {line}')
             # Skip empty lines or comments
             if not line.strip() or line.startswith('#'):
                 continue
@@ -28,5 +29,6 @@ def download_image(image_link, output_directory):
 
     # Download the image using gdown
     download_url = f'https://drive.google.com/uc?id={file_id}'
+    print(f'download URL: {download_url}')
     output_path = os.path.join(output_directory, f'{file_id}.jpg')
     gdown.download(download_url, output_path, quiet=False)
