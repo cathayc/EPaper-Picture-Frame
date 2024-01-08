@@ -31,6 +31,7 @@ On the Raspberry Pi:
 4. Create a virtual environment and make sure requirements are installed
    * `python3 -m venv .venv`
    * `source .venv/bin/activate`
+   * `pip3 install git+https://github.com/robweber/omni-epd.git#egg=omni-epd`
    * `pip3 install -r requirements.txt`
 5. Test it out
    * Run `python3 helloworld.py`. If everything's installed properly, this should start playing all the pictures from the `Images/OurLoveImages` directory.
