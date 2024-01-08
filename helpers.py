@@ -1,5 +1,31 @@
+import gdown
+import os
+
 from config import gdrive_url
 
-def download_images(imgPath):
-    # imagedir = os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath)
-    print(gdrive_url)
+def download_images_from_drive(output_directory):
+    # Download the file list from the Google Drive folder
+    file_list = gdown.download(gdrive_url, quiet=False)
+
+    # Read the file list and download images
+    with open(file_list, 'r') as file:
+        for line in file:
+            # Skip empty lines or comments
+            if not line.strip() or line.startswith('#'):
+                continue
+
+            # Download each image file
+            image_link = line.strip()
+            download_image(image_link, output_directory)
+
+    # Clean up: remove the temporary file list
+    os.remove(file_list)
+
+def download_image(image_link, output_directory):
+    # Extract the file ID from the image link
+    file_id = image_link.split('/')[-1]
+
+    # Download the image using gdown
+    download_url = f'https://drive.google.com/uc?id={file_id}'
+    output_path = os.path.join(output_directory, f'{file_id}.jpg')
+    gdown.download(download_url, output_path, quiet=False)

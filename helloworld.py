@@ -70,7 +70,6 @@ def check_and_delete_images(imgPath):
 def display_images(imgPath, refresh_second, loop = False):
     # Ensure this is the correct path to your video folder
     imagedir = os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath)
-    print("I'm displaying")
     print(imagedir)
     epd = epd_driver.EPD()
     width = epd.width
@@ -143,11 +142,11 @@ def main(call_leo, random_call_leo, refresh_second):
     else:
         # Default to love images
         imgPath = "Images/GeneralImages"
-        download_images(imgPath)
+        download_images_from_drive(imgPath)
         display_images(imgPath, refresh_second)
     print("Playing default now")
     imgPath = "Images/GeneralImages"
-    download_images(imgPath)
+    download_images_from_drive(imgPath)
     display_images(imgPath, refresh_second, loop = True)
  
 if __name__ == "__main__":
