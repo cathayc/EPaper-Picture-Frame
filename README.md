@@ -33,7 +33,7 @@ On the Raspberry Pi:
    * `source venv/bin/activate`
    * `pip3 install requirements.txt`
 5. Test it out
-   * Run `python3 helloworld.py`. If everything's installed properly, this should start playing all the pictures from the `Images/OurLoveImages` directory.
+   * Run `python3 helloworld.py`. If everything's installed properly, this should start playing all the pictures from the `Images/GeneralImages` directory.
    * If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 helloworld.py --refresh-second 10`.
 
 ## Usage
@@ -44,8 +44,8 @@ There are three types of usages:
 
 ### Normal Usage
 
-The normal usage takes images from `Images/OurLoveImages` and slowly displays them. Take the following steps:
-1. Run `python3 helloworld.py`. If everything's installed properly, this should start playing all the pictures from the `Images/OurLoveImages` directory.
+The normal usage takes images from `Images/GeneralImages` and slowly displays them. Take the following steps:
+1. Run `python3 helloworld.py`. If everything's installed properly, this should start playing all the pictures from the `Images/GeneralImages` directory.
 2. If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 helloworld.py --refresh-second 10`.
 
 ### Prompted AI Images
