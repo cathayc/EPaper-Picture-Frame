@@ -28,36 +28,32 @@ On the Raspberry Pi:
    * Update package sources: `sudo apt update`
    * Make sure git is installed: `sudo apt install git`
    * Make sure pip is installed: `sudo apt install python3-pip`
-2. Install Waveshare e-paper drivers
-   * `pip3 install "git+https://github.com/waveshare/e-Paper.git#subdirectory=RaspberryPi_JetsonNano/python&egg=waveshare-epd"`
-3. Clone this repo
-   * `git clone https://github.com/TomWhitwell/SlowMovie`
-   * Navigate to the new SlowMovie directory: `cd SlowMovie/`
-   * Copy the default configuration file: `cp Install/slowmovie-default.conf slowmovie.conf`
-4. Make sure dependencies are installed
-   * `sudo apt install ffmpeg`
-   * `pip3 install ffmpeg-python`
-   * `pip3 install pillow`
-   * `pip3 install ConfigArgParse`
-   * `pip3 install git+https://github.com/robweber/omni-epd.git#egg=omni-epd`
+2. Clone this repo
+   * `git clone https://github.com/cathayc/AI-Picture-Frame`
+   * Navigate to the new the project directory: `cd AI-Picture-Frame/`
+4. Create a virtual environment and make sure requirements are installed
+   * `python3 -m venv .venv`
+   * `source venv/bin/activate`
+   * `pip3 install requirements.txt`
 5. Test it out
-   * Run `python3 helloworld.py`. If everything's installed properly, this should start playing `test.mp4` (a clip from _Psycho_) from the `Videos` directory.
+   * Run `python3 helloworld.py`. If everything's installed properly, this should start playing all the pictures from the `Images/OurLoveImages` directory.
 
-### E-ink Display Customization
+### Making this script run at startup
 
-The guide for this program uses the [7.5-inch Waveshare display](https://www.waveshare.com/product/displays/e-paper/epaper-1/7.5inch-e-paper-hat.htm), this is the device driver loaded by default in the `slowmovie.conf` file. It is possible to specify other devices by editing the file or using the command line `-e` option. You can view a list of compatible e-ink devices on the [Omni-EPD repo](https://github.com/robweber/omni-epd/blob/main/README.md#displays-implemented).
+To make the script run at startup, you'll need to use the `run_script.sh` and `run_script.service` files found at the root of the directory.
 
-Customizing other options of the display is also possible by creating a file called `omni-epd.ini` in the SlowMovie directory. Common options for this file are listed below with a full explanation of all options available.
+1. Make sure the paths point to where the files are.
+   * In this case, you will want to replace `/home/cathychang/AI-Picture-Frame` in both `run_script.sh` and `run_script.service` to your project directory.
+2. Permissions:
+   * Ensure that both the run_script.sh script and the helloworld.py script have the execute permission:
+   * `chmod +x /path-to-AI-Picture-Frame/run_script.sh`
+   * `chmod +x /path-to-AI-Picture-Frame/helloworld.py`
+3. Reload systemd and start the service:
+   * `sudo systemctl daemon-reload`
+   * `sudo systemctl start run_script.service`
+4. Check service status, and use the following commands to debug if necessary:
+   * `sudo systemctl status run_script.service`
 
-```
-[Display]
-rotate=0  # rotate final image written to display by X degrees [0-360]
-flip_horizontal=False  # flip image horizontally
-flip_vertical=False  # flip image vertically
 
-[Image Enhancements]
-contrast=1  # adjust image contrast, 1 = no adjustment
-brightness=1  # adjust image brightness, 1 = no adjustment
-sharpness=1  # adjust image sharpness, 1 = no adjustment
-```
-]
+
+
