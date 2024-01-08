@@ -30,8 +30,9 @@ On the Raspberry Pi:
    * Navigate to the new the project directory: `cd AI-Picture-Frame/`
 4. Create a virtual environment and make sure requirements are installed
    * `python3 -m venv .venv`
-   * `source venv/bin/activate`
-   * `pip3 install requirements.txt`
+   * `source .venv/bin/activate`
+   * `pip3 install git+https://github.com/robweber/omni-epd.git#egg=omni-epd`
+   * `pip3 install -r requirements.txt`
 5. Test it out
    * Run `python3 helloworld.py`. If everything's installed properly, this should start playing all the pictures from the `Images/GeneralImages` directory.
    * If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 helloworld.py --refresh-second 10`.
@@ -71,13 +72,12 @@ To make the script run at startup, you'll need to use the `run_script.sh` and `r
    * Ensure that both the run_script.sh script and the helloworld.py script have the execute permission:
    * `chmod +x /path-to-AI-Picture-Frame/run_script.sh`
    * `chmod +x /path-to-AI-Picture-Frame/helloworld.py`
-3. Reload systemd and start the service:
+3. Reload systemd and start the service. Every time you make changes to the service, you'll need to restart it by running the same command:
    * `sudo systemctl daemon-reload`
    * `sudo systemctl start run_script.service`
 4. Check service status, and use the following commands to debug if necessary:
    * `sudo systemctl status run_script.service`
    * `journalctl -xe`
-5. Enable the service to start at boot:
-   * `sudo systemctl enable run_script.service`
+
 
 
