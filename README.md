@@ -71,14 +71,12 @@ To make the script run at startup, you'll need to use the `run_script.sh` and `r
    * Ensure that both the run_script.sh script and the helloworld.py script have the execute permission:
    * `chmod +x /path-to-AI-Picture-Frame/run_script.sh`
    * `chmod +x /path-to-AI-Picture-Frame/helloworld.py`
-3. Reload systemd and start the service:
+3. Reload systemd and start the service. Every time you make changes to the service, you'll need to restart it by running the same command:
    * `sudo systemctl daemon-reload`
    * `sudo systemctl start run_script.service`
 4. Check service status, and use the following commands to debug if necessary:
    * `sudo systemctl status run_script.service`
    * `journalctl -xe`
-5. Enable the service to start at boot. Every time you make changes to the service, you'll need to restart it by running the same command:
-   * `sudo systemctl enable run_script.service`
 
 
 
