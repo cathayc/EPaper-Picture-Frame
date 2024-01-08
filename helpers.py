@@ -5,6 +5,7 @@ from config import gdrive_folder_id
 def download_images_from_folder(folder_id, output_directory):
     # List files in the folder using the folder ID
     file_list = gdown.download(f'https://drive.google.com/drive/folders/{folder_id}', quiet=False)
+    print(file_list)
 
     # Read the file list and download images
     with open(file_list, 'r') as file:
