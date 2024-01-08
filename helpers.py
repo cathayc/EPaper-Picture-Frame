@@ -1,12 +1,10 @@
 import gdown
 import os
-
 from config import gdrive_folder_id
 
-def download_images_from_drive(output_directory):
-    # Download the file list from the Google Drive folder
-    folder_url = f'https://drive.google.com/drive/folders/{gdrive_folder_id}'
-    file_list = gdown.download(folder_url, quiet=False, fuzzy=True)
+def download_images_from_folder(folder_id, output_directory):
+    # List files in the folder using the folder ID
+    file_list = gdown.download(f'https://drive.google.com/drive/folders/{folder_id}', quiet=False)
 
     # Read the file list and download images
     with open(file_list, 'r') as file:
