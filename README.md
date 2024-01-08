@@ -76,7 +76,8 @@ To make the script run at startup, you'll need to use the `run_script.sh` and `r
    * `sudo systemctl start run_script.service`
 4. Check service status, and use the following commands to debug if necessary:
    * `sudo systemctl status run_script.service`
-
-
+   * `journalctl -xe`
+5. Enable the service to start at boot:
+   * `sudo systemctl enable run_script.service`
 
 
