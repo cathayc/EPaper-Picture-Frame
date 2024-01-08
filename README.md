@@ -37,8 +37,18 @@ On the Raspberry Pi:
    * `pip3 install requirements.txt`
 5. Test it out
    * Run `python3 helloworld.py`. If everything's installed properly, this should start playing all the pictures from the `Images/OurLoveImages` directory.
+   * If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 helloworld.py --refresh-second 10`.
 
-### Making this script run at startup
+## Generate AI Images
+
+To generate AI images, you will need to create a leonardo.ai account. After doing so, you will obtain your own API key. Store this in the config file:
+1. Navigate to config.py file at root, and replace `"YOUR-API-KEY"` with your own API key.
+2. Call leonardo:
+   * Think of a prompt. Example: `cat chase horse in wild west`
+   * Add prompt to your call: `python3 helloworld.py --call-leo "cat chase horse in wild west"`
+   * The program will now call leonardo with your prompt, download the images, and display on your epaper display.
+
+## Making this script run at startup
 
 To make the script run at startup, you'll need to use the `run_script.sh` and `run_script.service` files found at the root of the directory.
 
