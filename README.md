@@ -4,29 +4,16 @@ This project is born out of curiousity into how ePaper displays and AI picture g
 1. Slowly display pre-uploaded image on the ePaper display
 2. Take in a user-inputted prompt, generate + download AI images, and display images on the ePaper display
 
-Majority of the ePaper configuration and driver code is derived from [Tom Whitwell's SlowMovie project](https://github.com/TomWhitwell/SlowMovie), whose purpose is to take in a movie and play it slowly, frame by frame, on an ePaper display, using a Raspberry Pi.
-
 ## Table Of Contents
 
-- [Background](#background)
 - [Install](#install)
 - [Usage](#usage)
   - [E-ink Display Customization](#e-ink-display-customization)
   - [Running as a Service](#running-as-a-service)
 
-## Background
-
-In December 2018, Bryan Boyer posted [“Creating a Very Slow Movie Player”](https://medium.com/s/story/very-slow-movie-player-499f76c48b62), an essay about light and Brasília and architecture in which Boyer builds an e-paper display that shows films at 24 frames per hour, rather than 24 frames per second so it takes about a year to play the 142 minutes of _2001: A Space Odyssey_.
-
-In August 2020, Tom Whitwell posted ["How to Build a Very Slow Movie Player for £120 in 2020"](https://debugger.medium.com/how-to-build-a-very-slow-movie-player-in-2020-c5745052e4e4), with instructions on how to build a VSMP with the new [7.5-inch, Raspberry Pi-compatible e-paper display from Waveshare](https://www.waveshare.com/product/displays/e-paper/epaper-1/7.5inch-e-paper-hat.htm).
-
-In June 2023, Cathy cloned the code and made some modifications to make it work with her (this) project.
-
-SlowMovie is the code that runs a VSMP on a Raspberry Pi.
-
 ## Install
 
-**Note:** These installation instructions assume you have access to your Raspberry Pi and that you have the hardware set up properly. See the [Medium post](https://debugger.medium.com/how-to-build-a-very-slow-movie-player-in-2020-c5745052e4e4) for more complete instructions.
+**Note:** Some of these installation instructions takes from Tom Whitell's [SlowMovie](https://github.com/TomWhitwell/SlowMovie) setup instructions. These installation instructions assume you have access to your Raspberry Pi and that you have the hardware set up properly. See the [Medium post](https://debugger.medium.com/how-to-build-a-very-slow-movie-player-in-2020-c5745052e4e4) for more complete instructions.
 
 SlowMovie requires [Python 3](https://www.python.org). It uses [FFmpeg](https://ffmpeg.org) via [ffmpeg-python](https://github.com/kkroening/ffmpeg-python) for video processing, [Pillow](https://python-pillow.org) for image processing, and [Omni-EPD](https://github.com/robweber/omni-epd) for loading the correct e-ink display driver. [ConfigArgParse](https://github.com/bw2/ConfigArgParse) is used for configuration and argument handling.
 
