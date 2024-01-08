@@ -147,7 +147,7 @@ def main(call_leo, random_call_leo, refresh_second):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Example of a feature flag in Python")
     parser.add_argument("--call-leo", type=str, help="Call Leonardo AI with the specified prompt")
-    parser.add_argument("--random-call-leo", action="store_true", help="Call Leonardo AI with random generated tai and cathy words")
+    parser.add_argument("--random-call-leo", action="store_true", help="Call Leonardo AI with randomly generated words")
     parser.add_argument("--refresh-second", type=int, default = 15, help="Add the number of seconds you'd like the paper to refresh at")
     args = parser.parse_args()
 
