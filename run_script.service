@@ -3,7 +3,7 @@ Description=Run Script Service
 After=network.target
 
 [Service]
-ExecStart=/run_script.sh
+ExecStart=/home/cathychang/AI-Picture-Frame/run_script.sh
 Restart=always
 RestartSec=5
 
