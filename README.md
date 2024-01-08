@@ -31,8 +31,8 @@ On the Raspberry Pi:
 2. Install Waveshare e-paper drivers
    * `pip3 install "git+https://github.com/waveshare/e-Paper.git#subdirectory=RaspberryPi_JetsonNano/python&egg=waveshare-epd"`
 3. Clone this repo
-   * `git clone https://github.com/TomWhitwell/SlowMovie`
-   * Navigate to the new SlowMovie directory: `cd SlowMovie/`
+   * `git clone https://github.com/cathayc/AI-Picture-Frame`
+   * Navigate to the new SlowMovie directory: `cd AI-Picture-Frame/`
    * Copy the default configuration file: `cp Install/slowmovie-default.conf slowmovie.conf`
 4. Make sure dependencies are installed
    * `sudo apt install ffmpeg`
