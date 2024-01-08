@@ -145,7 +145,7 @@ def main(call_leo, random_call_leo, refresh_second):
         display_images(imgPath, refresh_second)
     print("Playing default now")
     imgPath = "Images/GeneralImages"
-    download_images(imgPath):
+    download_images(imgPath)
     display_images(imgPath, refresh_second, loop = True)
  
 if __name__ == "__main__":
