@@ -16,7 +16,7 @@ from leonardo import call_and_save as call_and_save
 from waveshare_epd import epd7in5_V2 as epd_driver
 import random
 
-from helpers import download_images
+from helpers import download_images_from_drive
 
 def choose_random_words(num_words=5):
     # Open and read the file containing the list of words
