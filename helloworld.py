@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding:utf-8 -*-
 
+
 import os
 import time
 import sys
@@ -14,6 +15,8 @@ from fractions import Fraction
 from leonardo import call_and_save as call_and_save
 from waveshare_epd import epd7in5_V2 as epd_driver
 import random
+
+from helpers import download_images
 
 def choose_random_words(num_words=5):
     # Open and read the file containing the list of words
@@ -63,9 +66,6 @@ def check_and_delete_images(imgPath):
             os.remove(image_path)
 
         # Refresh the list of images in t
-
-def download_images(imgPath, gdrivePath):
-
 
 def display_images(imgPath, refresh_second, loop = False):
     # Ensure this is the correct path to your video folder
@@ -145,6 +145,7 @@ def main(call_leo, random_call_leo, refresh_second):
         display_images(imgPath, refresh_second)
     print("Playing default now")
     imgPath = "Images/GeneralImages"
+    download_images(imgPath):
     display_images(imgPath, refresh_second, loop = True)
  
 if __name__ == "__main__":
