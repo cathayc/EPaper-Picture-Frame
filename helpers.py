@@ -50,7 +50,7 @@ def download_images_from_folder(local_destination):
 
                     # Specify Dropbox API headers for downloading
                     download_headers = {
-                        'Authorization': f'Bearer {access_token}',
+                        'Authorization': f'Bearer {dropbox_access_token}',
                         'Dropbox-API-Arg': f'{{"path": "{file_path}"}}'
                     }
 
