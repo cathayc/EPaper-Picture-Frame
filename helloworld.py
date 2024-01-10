@@ -108,8 +108,6 @@ def display_images(imgPath, refresh_second, loop = False):
             time.sleep(refresh_second)
             if count % len(images) == 0:
                 epd.reset()
-        # Clean up images
-        check_and_delete_images(imgPath)
         print('Closing...')
         epd.reset()
 
@@ -131,6 +129,7 @@ def main(call_leo, random_call_leo, refresh_second):
         prompt = call_leo
         call_and_save(prompt, imgPath)
         display_images(imgPath, refresh_second)
+        check_and_delete_images(imgPath)
     elif random_call_leo:
         # Calling to Leo with random prompt
         imgPath = "Images/RandomLeoImages"
@@ -138,6 +137,7 @@ def main(call_leo, random_call_leo, refresh_second):
         print(f"Your random words turned out to be: {prompt}")
         call_and_save(prompt, imgPath)
         display_images(imgPath, refresh_second)
+        check_and_delete_images(imgPath)
     else:
         # Default to love images
         imgPath = "Images/GeneralImages"
