@@ -1,7 +1,7 @@
 import requests
 import os
 
-from config import dropbox_access_token, dropbox_folder_link
+from config import dropbox_access_token
 
 
 def download_images_from_folder(local_destination):
