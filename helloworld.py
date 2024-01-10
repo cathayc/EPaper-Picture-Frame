@@ -139,10 +139,11 @@ def main(call_leo, random_call_leo, refresh_second):
         display_images(imgPath, refresh_second)
         check_and_delete_images(imgPath)
     else:
-        # Default to love images
+        # Default to general images taken from dropbox
         imgPath = "Images/GeneralImages"
         download_images_from_folder(imgPath)
         display_images(imgPath, refresh_second)
+    # At the very end, loop into general images
     print("Playing default now")
     imgPath = "Images/GeneralImages"
     download_images_from_folder(imgPath)
