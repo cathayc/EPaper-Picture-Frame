@@ -30,3 +30,43 @@ def download_images_from_folder(local_destination):
             files = response.json().get('entries', [])
 
             # Iterate through the files and download each image
+            for file_info in files:
+                file_path = file_info['path_display']
+                local_file_path = os.path.join(local_destination, os.path.basename(file_path))
+
+                # Check if the file already exists locally
+                if not os.path.exists(local_file_path):
+                    # Dropbox API endpoint for downloading files
+                    download_url = 'https://content.dropboxapi.com/2/files/download'
+
+                    # Specify Dropbox API headers for downloading
+                    download_headers = {
+                        'Authorization': f'Bearer {dropbox_access_token}',
+                        'Dropbox-API-Arg': f'{{"path": "{file_path}"}}'
+                    }
+
+                    # Make a request to download the file
+                    download_response = requests.post(download_url, headers=download_headers)
+
+                    # Save the downloaded file locally
+                    with open(local_file_path, 'wb') as local_file:
+                        local_file.write(download_response.content)
+        except requests.exceptions.JSONDecodeError:
+            # Print the response content if there is an issue with JSON decoding
+            print(response.text)
+    else:
+        # Print the response content for non-OK status codes
+        print(response.text)
+
+if __name__ == "__main__":
+    # Replace 'dropbox_access_token' with the actual Dropbox access token
+    dropbox_access_token = 'your_dropbox_access_token'
+
+    # Replace 'local_destination' with the local directory path where you want to save the downloaded images
+    local_destination = 'local/directory'
+
+    # Create the local destination directory if it doesn't exist
+    os.makedirs(local_destination, exist_ok=True)
+
+    # Call the function to download images from the folder
+    download_images_from_folder(local_destination)
