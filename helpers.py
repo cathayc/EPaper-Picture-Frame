@@ -1,6 +1,8 @@
 import requests
 import os
 import random
+import time
+import sys
 import RPi.GPIO as GPIO
 from PIL import Image
 from waveshare_epd import epd7in5_V2 as epd_driver
