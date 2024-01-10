@@ -17,7 +17,6 @@ from waveshare_epd import epd7in5_V2 as epd_driver
 import random
 
 from helpers import download_images_from_folder
-from config import gdrive_folder_id
 
 def choose_random_words(num_words=5):
     # Open and read the file containing the list of words
