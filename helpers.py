@@ -30,4 +30,3 @@ def download_images_from_folder(local_destination):
             files = response.json().get('entries', [])
 
             # Iterate through the files and download each image
-          
