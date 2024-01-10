@@ -10,7 +10,7 @@ import signal
 import argparse
 
 from leonardo import call_and_save as call_and_save
-from helpers import setup_gpio, display_images, download_images_from_folder
+from helpers import setup_gpio, cleanup_gpio, exithandler, display_images, download_images_from_folder
 
 
 def main(call_leo, random_call_leo, refresh_second):
