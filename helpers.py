@@ -42,12 +42,15 @@ def download_images_from_folder(local_destination):
 
                 # Check if the file already exists locally
                 if not os.path.exists(local_file_path):
+                    # Create the directory structure if it doesn't exist
+                    os.makedirs(os.path.dirname(local_file_path), exist_ok=True)
+
                     # Dropbox API endpoint for downloading files
                     download_url = 'https://content.dropboxapi.com/2/files/download'
 
                     # Specify Dropbox API headers for downloading
                     download_headers = {
-                        'Authorization': f'Bearer {dropbox_access_token}',
+                        'Authorization': f'Bearer {access_token}',
                         'Dropbox-API-Arg': f'{{"path": "{file_path}"}}'
                     }
 
