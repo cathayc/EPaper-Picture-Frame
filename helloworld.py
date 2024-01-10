@@ -109,7 +109,8 @@ def display_images(imgPath, refresh_second, loop = False):
             time.sleep(refresh_second)
             if count % len(images) == 0:
                 epd.reset()
-        
+        # Clean up images
+        check_and_delete_images(imgPath)
         print('Closing...')
         epd.reset()
 
@@ -130,7 +131,6 @@ def main(call_leo, random_call_leo, refresh_second):
         imgPath = "Images/PromptLeoImages"
         prompt = call_leo
         call_and_save(prompt, imgPath)
-        check_and_delete_images(imgPath)
         display_images(imgPath, refresh_second)
     elif random_call_leo:
         # Calling to Leo with random prompt
@@ -138,16 +138,15 @@ def main(call_leo, random_call_leo, refresh_second):
         prompt = choose_random_words()
         print(f"Your random words turned out to be: {prompt}")
         call_and_save(prompt, imgPath)
-        check_and_delete_images(imgPath)
         display_images(imgPath, refresh_second)
     else:
         # Default to love images
         imgPath = "Images/GeneralImages"
-        download_images_from_folder(gdrive_folder_id, imgPath)
+        download_images_from_folder(imgPath)
         display_images(imgPath, refresh_second)
     print("Playing default now")
     imgPath = "Images/GeneralImages"
-    download_images_from_folder(gdrive_folder_id, imgPath)
+    download_images_from_folder(imgPath)
     display_images(imgPath, refresh_second, loop = True)
  
 if __name__ == "__main__":

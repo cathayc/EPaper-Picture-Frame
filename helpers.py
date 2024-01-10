@@ -1,34 +1,58 @@
-import gdown
+import requests
 import os
-from config import gdrive_folder_id
 
-def download_images_from_folder(folder_id, output_directory):
-    # List files in the folder using the folder ID
-    file_list_url = f'https://drive.google.com/drive/folders/{folder_id}'
-    file_list = gdown.download(file_list_url, quiet=False, fuzzy=True)
-    print(f'file list: {file_list}')
+from config import dropbox_access_token, dropbox_folder_link
 
-    # Read the file list and download images
-    with open(file_list, 'r') as file:
-        for line in file:
-            print(f'line: {line}')
-            # Skip empty lines or comments
-            if not line.strip() or line.startswith('#'):
-                continue
 
-            # Download each image file
-            image_link = line.strip()
-            download_image(image_link, output_directory)
+def download_images_from_folder(local_destination):
+    # Dropbox API endpoint for listing files in a folder
+    list_folder_url = 'https://api.dropboxapi.com/2/files/list_folder'
 
-    # Clean up: remove the temporary file list
-    os.remove(file_list)
+    # Specify Dropbox API headers, including the access token
+    headers = {
+        'Authorization': f'Bearer {dropbox_access_token}',
+        'Content-Type': 'application/json',
+    }
 
-def download_image(image_link, output_directory):
-    # Extract the file ID from the image link
-    file_id = image_link.split('/')[-1]
+    # Specify the folder path for which you want to list files
+    folder_path = '/AI Picture Frame'
+    data = {
+        'path': folder_path,
+        'recursive': False,
+    }
 
-    # Download the image using gdown
-    download_url = f'https://drive.google.com/uc?id={file_id}'
-    print(f'download URL: {download_url}')
-    output_path = os.path.join(output_directory, f'{file_id}.jpg')
-    gdown.download(download_url, output_path, quiet=False)
+    # Make a request to list files in the folder
+    response = requests.post(list_folder_url, headers=headers, json=data)
+
+    # Check if the response status code is 200 (OK)
+    if response.status_code == 200:
+        try:
+            # Try to parse the response as JSON
+            files = response.json().get('entries', [])
+            
+            # Iterate through the files and download each image
+            for file_info in files:
+                file_path = file_info['path_display']
+                local_file_path = os.path.join(local_destination, os.path.basename(file_path))
+                
+                # Dropbox API endpoint for downloading files
+                download_url = f'https://content.dropboxapi.com/2/files/download'
+                
+                # Specify Dropbox API headers for downloading
+                download_headers = {
+                    'Authorization': f'Bearer {dropbox_access_token}',
+                    'Dropbox-API-Arg': f'{{"path": "{file_path}"}}'
+                }
+                
+                # Make a request to download the file
+                download_response = requests.post(download_url, headers=download_headers)
+                
+                # Save the downloaded file locally
+                with open(local_file_path, 'wb') as local_file:
+                    local_file.write(download_response.content)
+        except requests.exceptions.JSONDecodeError:
+            # Print the response content if there is an issue with JSON decoding
+            print(response.text)
+    else:
+        # Print the response content for non-OK status codes
+        print(response.text)
