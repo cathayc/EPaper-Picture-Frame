@@ -14,18 +14,20 @@ This project is born out of curiousity into how ePaper displays and AI picture g
 
 ## Install
 
-**Note:** Some of these installation instructions takes from Tom Whitell's [SlowMovie](https://github.com/TomWhitwell/SlowMovie) setup instructions. These installation instructions assume you have access to your Raspberry Pi and that you have the hardware set up properly. See the [Medium post](https://debugger.medium.com/how-to-build-a-very-slow-movie-player-in-2020-c5745052e4e4) for more complete instructions. AI Picture Frame requires [Python 3](https://www.python.org). It uses [FFmpeg](https://ffmpeg.org) via [ffmpeg-python](https://github.com/kkroening/ffmpeg-python) for video processing, [Pillow](https://python-pillow.org) for image processing, and [Omni-EPD](https://github.com/robweber/omni-epd) for loading the correct e-ink display driver. [ConfigArgParse](https://github.com/bw2/ConfigArgParse) is used for configuration and argument handling.
+**Note:** Some of these installation instructions takes from Tom Whitell's [SlowMovie](https://github.com/TomWhitwell/SlowMovie) setup instructions. This installation instruction assumes you have access to your Raspberry Pi and that you have the hardware set up properly. See the [Medium post](https://debugger.medium.com/how-to-build-a-very-slow-movie-player-in-2020-c5745052e4e4) for more complete instructions. AI Picture Frame requires [Python 3](https://www.python.org). It uses [FFmpeg](https://ffmpeg.org) via [ffmpeg-python](https://github.com/kkroening/ffmpeg-python) for video processing, [Pillow](https://python-pillow.org) for image processing, and [Omni-EPD](https://github.com/robweber/omni-epd) for loading the correct e-ink display driver. [ConfigArgParse](https://github.com/bw2/ConfigArgParse) is used for configuration and argument handling.
 
-On the Raspberry Pi:
+On the Raspberry Pi (or after ssh-ing into the Raspberry Pi):
 0. Make sure SPI is enabled
    * Run `sudo raspi-config`
    * Navigate to `Interface Options` > `SPI`
+   * Select `Yes` to enable SPI.
    * Select `<Finish>` to exit. Reboot if prompted.
 1. Set up environment
    * Update package sources: `sudo apt update`
    * Make sure git is installed: `sudo apt install git`
    * Make sure pip is installed: `sudo apt install python3-pip`
 2. Clone this repo
+   * Create a new SSH key and add to your github [Instructions](https://phoenixnap.com/kb/git-clone-ssh)
    * `git clone https://github.com/cathayc/AI-Picture-Frame`
    * Navigate to the new the project directory: `cd AI-Picture-Frame/`
 4. Create a virtual environment and make sure requirements are installed
