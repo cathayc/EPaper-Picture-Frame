@@ -28,7 +28,7 @@ On the Raspberry Pi (or after ssh-ing into the Raspberry Pi):
    * Make sure pip is installed: `sudo apt install python3-pip`
 2. Clone this repo
    * Create a new SSH key and add to your github [Instructions](https://phoenixnap.com/kb/git-clone-ssh)
-   * `git clone https://github.com/cathayc/AI-Picture-Frame`
+   * `git clone git@github.com:cathayc/AI-Picture-Frame.git`
    * Navigate to the new the project directory: `cd AI-Picture-Frame/`
 4. Create a virtual environment and make sure requirements are installed
    * `python3 -m venv .venv`
