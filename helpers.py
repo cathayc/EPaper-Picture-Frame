@@ -63,6 +63,7 @@ def download_images_from_folder(local_destination):
                     # Save the downloaded file locally
                     with open(local_file_path, 'wb') as local_file:
                         local_file.write(download_response.content)
+                        print("File downloaded successfully as ", local_file_path)
         except requests.exceptions.JSONDecodeError:
             # Print the response content if there is an issue with JSON decoding
             print(response.text)
@@ -164,6 +165,9 @@ def display_images(imgPath, refresh_second, loop = True):
             # Download images from folder if we successfully looped through all images
             if count % len(images) == 0:
                 download_images_from_folder(imgPath)
+                # Update the images list
+                ordered_images = list(filter(supported_filetype, os.listdir(imagedir)))
+                images = random.sample(ordered_images, len(ordered_images))
         print('Closing...')
         epd.reset()
 
