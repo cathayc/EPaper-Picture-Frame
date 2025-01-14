@@ -164,7 +164,10 @@ def display_images(imgPath, refresh_second, loop = True):
             time.sleep(refresh_second)
             # Download images from folder if we successfully looped through all images
             if count % len(images) == 0:
-                download_images_from_folder(imgPath)
+                try:
+                    download_images_from_folder(imgPath)
+                except:
+                    pass
                 # Update the images list
                 new_ordered_images = list(filter(supported_filetype, os.listdir(imagedir)))
                 if ordered_images != new_ordered_images:

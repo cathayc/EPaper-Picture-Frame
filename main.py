@@ -43,7 +43,10 @@ def main(call_leo, random_call_leo, refresh_second):
     print("Playing default now")
     setup_gpio()  # Set up the GPIO pins
     imgPath = "Images/GeneralImages"
-    download_images_from_folder(imgPath)
+    try:
+        download_images_from_folder(imgPath)
+    except:
+        pass
     display_images(imgPath, refresh_second)
  
 if __name__ == "__main__":
