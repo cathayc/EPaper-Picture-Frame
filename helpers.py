@@ -116,7 +116,7 @@ def check_and_delete_images(imgPath):
 
         # Refresh the list of images in t
 
-def display_images(imgPath, refresh_second, loop = False):
+def display_images(imgPath, refresh_second, loop = True):
     # Ensure this is the correct path to your video folder
     imagedir = os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath)
     print(imagedir)
@@ -155,8 +155,6 @@ def display_images(imgPath, refresh_second, loop = False):
             epd.display(epd.getbuffer(bmp_image))
             count= count + 1
             time.sleep(refresh_second)
-            if count % len(images) == 0:
-                epd.reset()
         print('Closing...')
         epd.reset()
 
