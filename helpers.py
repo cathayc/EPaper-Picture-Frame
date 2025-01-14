@@ -4,9 +4,9 @@ import os
 import random
 import time
 import sys
-import RPi.GPIO as GPIO
-from PIL import Image
-from waveshare_epd import epd7in5_V2 as epd_driver
+# import RPi.GPIO as GPIO
+# from PIL import Image
+# from waveshare_epd import epd7in5_V2 as epd_driver
 
 from config import dropbox_access_token
 
@@ -36,6 +36,7 @@ def download_images_from_folder(local_destination):
         try:
             # Try to parse the response as JSON
             files = response.json().get('entries', [])
+            retrieved_path_map = {os.path.join(local_destination, os.path.basename(file['path_display'])): file['path_display'] for file in files}
             retrieved_file_paths = [os.path.join(local_destination, os.path.basename(file['path_display'])) for file in files]
             current_file_paths = [os.path.join(local_destination, file) for file in os.listdir(local_destination)]
             # Files in current file path that's not in retrieved file path:
@@ -49,7 +50,9 @@ def download_images_from_folder(local_destination):
             
             # Add files that are not in the current file paths
             for file in files_to_add:
-                print("Downloading file:", file)
+                # Reextract this: os.path.basename(file['path_display']
+                dropbox_fp = retrieved_path_map[file]
+                print("Downloading file:", dropbox_fp)
                 # Create the directory structure if it doesn't exist
                 os.makedirs(os.path.dirname(file), exist_ok=True)
 
@@ -59,7 +62,7 @@ def download_images_from_folder(local_destination):
                 # Specify Dropbox API headers for downloading
                 download_headers = {
                     'Authorization': f'Bearer {dropbox_access_token}',
-                    'Dropbox-API-Arg': f'{{"path": "{file}"}}'
+                    'Dropbox-API-Arg': f'{{"path": "{dropbox_fp}"}}'
                 }
 
                 # Make a request to download the file
@@ -75,16 +78,6 @@ def download_images_from_folder(local_destination):
     else:
         # Print the response content for non-OK status codes
         print(response.text)
-
-def choose_random_words(num_words=5):
-    # Open and read the file containing the list of words
-    with open("word_list.txt", "r") as file:
-        words = file.read().splitlines()
-
-    # Choose 5 random words from the list
-    random_words = random.sample(words, num_words)
-    random_sentence = " ".join(random_words)
-    return random_sentence
 
 # Define the setup_gpio function
 def setup_gpio():
@@ -107,23 +100,6 @@ def exithandler(signum, frame):
 def supported_filetype(file):
     _, ext = os.path.splitext(file)
     return ext.lower() in(".png", ".jpg")
-
-def check_and_delete_images(imgPath):
-    imagedir = os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath)
-    images = list(filter(supported_filetype, os.listdir(imagedir)))
-    # Check if the number of images exceeds 10
-    if len(images) > 6:
-        # Sort the images by creation time (you may need to implement your own sorting logic)
-        images.sort(key=lambda x: os.path.getctime(os.path.join(imagedir, x)))
-
-        # Delete the earliest 5 images and remove them from the directory
-        for i in range(len(images)-4):
-            # Build the full file path to the image
-            image_path = os.path.join(imagedir, images[i])
-            # Delete the image file
-            os.remove(image_path)
-
-        # Refresh the list of images in t
 
 def display_images(imgPath, refresh_second, loop = True):
     # Ensure this is the correct path to your video folder

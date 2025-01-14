@@ -7,8 +7,9 @@ import sys
 import signal
 import argparse
 
-from leonardo import call_and_save as call_and_save
-from helpers import setup_gpio, cleanup_gpio, exithandler, display_images, download_images_from_folder
+# from leonardo import call_and_save as call_and_save
+# from helpers import setup_gpio, cleanup_gpio, exithandler, display_images, 
+from helpers import download_images_from_folder
 
 
 def main(call_leo, random_call_leo, refresh_second):
@@ -31,4 +32,5 @@ if __name__ == "__main__":
     parser.add_argument("--refresh-second", type=int, default = 15, help="Add the number of seconds you'd like the paper to refresh at")
     args = parser.parse_args()
 
-    main(args.call_leo, args.random_call_leo, args.refresh_second)
+    # main(args.call_leo, args.random_call_leo, args.refresh_second)
+    download_images_from_folder("Images/GeneralImages")
