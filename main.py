@@ -43,7 +43,7 @@ def main(call_leo, random_call_leo, refresh_second):
     setup_gpio()  # Set up the GPIO pins
     imgPath = "Images/GeneralImages"
     download_images_from_folder(imgPath)
-    display_images(imgPath, refresh_second, loop = True)
+    display_images(imgPath, refresh_second)
  
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Example of a feature flag in Python")
