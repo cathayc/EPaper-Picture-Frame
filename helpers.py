@@ -145,7 +145,9 @@ def display_images(imgPath, refresh_second, loop = True):
             print(count)
             # Mod this
             # single_image = images[count % len(images)]
-            single_image = math.random.choice(images)
+            len(images)
+            random_index = random.randint(0, len(images) - 1)
+            single_image = images[random_index]
             # Get current images
             currentImage = os.path.join(imagedir, single_image)
             image = Image.open(currentImage)
