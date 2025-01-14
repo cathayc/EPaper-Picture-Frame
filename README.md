@@ -36,8 +36,8 @@ On the Raspberry Pi (or after ssh-ing into the Raspberry Pi):
    * `pip3 install git+https://github.com/robweber/omni-epd.git#egg=omni-epd`
    * `pip3 install -r requirements.txt`
 5. Test it out
-   * Run `python3 helloworld.py`. If everything's installed properly, this should start playing all the pictures from the `Images/GeneralImages` directory.
-   * If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 helloworld.py --refresh-second 10`.
+   * Run `python3 main.py`. If everything's installed properly, this should start playing all the pictures from the `Images/GeneralImages` directory.
+   * If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 main.py --refresh-second 10`.
 
 ## Usage
 There are three types of usages:
@@ -48,21 +48,21 @@ There are three types of usages:
 ### Normal Usage
 
 The normal usage takes images from `Images/GeneralImages` and slowly displays them. Take the following steps:
-1. Run `python3 helloworld.py`. If everything's installed properly, this should start playing all the pictures from the `Images/GeneralImages` directory.
-2. If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 helloworld.py --refresh-second 10`.
+1. Run `python3 main.py`. If everything's installed properly, this should start playing all the pictures from the `Images/GeneralImages` directory.
+2. If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 main.py --refresh-second 10`.
 
 ### Prompted AI Images
 0. To generate AI images, you will need to create a leonardo.ai account. After doing so, you will obtain your own API key. Store this in the config file:
 1. Navigate to config.py file at root, and replace `"YOUR-API-KEY"` with your own API key.
 2. Call leonardo:
    * Think of a prompt. Example: `cat chase horse in wild west`
-   * Add prompt to your call: `python3 helloworld.py --call-leo "cat chase horse in wild west"`
+   * Add prompt to your call: `python3 main.py --call-leo "cat chase horse in wild west"`
    * The program will now call leonardo with your prompt, download the images, and display on your epaper display.
 
 ### Random Phrases AI images
 Repeat steps 0 and 1 from above. Then, 
 1. modify `word_list.txt` with your phrases.
-2. Type `python3 helloworld.py --random-call-leo`
+2. Type `python3 main.py --random-call-leo`
 
 ## Making this script run at startup
 
@@ -71,9 +71,9 @@ To make the script run at startup, you'll need to use the `run_script.sh` and `r
 1. Make sure the paths point to where the files are.
    * In this case, you will want to replace `/home/cathychang/AI-Picture-Frame` in both `run_script.sh` and `run_script.service` to your project directory.
 2. Permissions:
-   * Ensure that both the run_script.sh script and the helloworld.py script have the execute permission:
+   * Ensure that both the run_script.sh script and the main.py script have the execute permission:
    * `chmod +x /path-to-AI-Picture-Frame/run_script.sh`
-   * `chmod +x /path-to-AI-Picture-Frame/helloworld.py`
+   * `chmod +x /path-to-AI-Picture-Frame/main.py`
 3. Reload systemd and start the service. Every time you make changes to the service, you'll need to restart it by running the same command:
    * `sudo systemctl daemon-reload`
    * `sudo systemctl start run_script.service`
