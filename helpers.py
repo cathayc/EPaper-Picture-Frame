@@ -139,6 +139,8 @@ def display_images(imgPath, refresh_second, loop = True):
         print('Clearing')
         epd.Clear()
 
+        setup_gpio()
+
         ordered_images = list(filter(supported_filetype, os.listdir(imagedir)))
         images = random.sample(ordered_images, len(ordered_images))
         if not images:
