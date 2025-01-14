@@ -1,4 +1,5 @@
 import requests
+import math
 import os
 import random
 import time
@@ -10,6 +11,7 @@ from waveshare_epd import epd7in5_V2 as epd_driver
 from config import dropbox_access_token
 
 def download_images_from_folder(local_destination):
+    print("Checking to download images from Dropbox")
     # Dropbox API endpoint for listing files in a folder
     list_folder_url = 'https://api.dropboxapi.com/2/files/list_folder'
 
@@ -42,6 +44,7 @@ def download_images_from_folder(local_destination):
 
                 # Check if the file already exists locally
                 if not os.path.exists(local_file_path):
+                    print("Downloading file:", file_path)
                     # Create the directory structure if it doesn't exist
                     os.makedirs(os.path.dirname(local_file_path), exist_ok=True)
 
@@ -141,7 +144,8 @@ def display_images(imgPath, refresh_second, loop = True):
         while (count < len(images) and not loop) or loop:
             print(count)
             # Mod this
-            single_image = images[count % len(images)]
+            # single_image = images[count % len(images)]
+            single_image = math.random.choice(images)
             # Get current images
             currentImage = os.path.join(imagedir, single_image)
             image = Image.open(currentImage)
@@ -155,6 +159,9 @@ def display_images(imgPath, refresh_second, loop = True):
             epd.display(epd.getbuffer(bmp_image))
             count= count + 1
             time.sleep(refresh_second)
+            # Download images from folder if we successfully looped through all images
+            if count % len(images) == 0:
+                download_images_from_folder(imgPath)
         print('Closing...')
         epd.reset()
 
