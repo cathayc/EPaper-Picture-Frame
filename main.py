@@ -13,8 +13,8 @@ from helpers import setup_gpio, cleanup_gpio, exithandler, display_images, downl
 
 def main(call_leo, random_call_leo, refresh_second):
     print(f"refresh second: {refresh_second}")
-    # signal.signal(signal.SIGTERM, exithandler)
-    # signal.signal(signal.SIGINT, exithandler)
+    signal.signal(signal.SIGTERM, exithandler)
+    signal.signal(signal.SIGINT, exithandler)
     setup_gpio()  # Set up the GPIO pins
     
     # First, call leo and save images
