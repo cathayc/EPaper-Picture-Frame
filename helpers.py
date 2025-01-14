@@ -166,7 +166,10 @@ def display_images(imgPath, refresh_second, loop = True):
             if count % len(images) == 0:
                 download_images_from_folder(imgPath)
                 # Update the images list
-                ordered_images = list(filter(supported_filetype, os.listdir(imagedir)))
+                new_ordered_images = list(filter(supported_filetype, os.listdir(imagedir)))
+                if ordered_images != new_ordered_images:
+                    print(f"Images updated to: {new_ordered_images}")
+                ordered_images = new_ordered_images
                 images = random.sample(ordered_images, len(ordered_images))
         print('Closing...')
         epd.reset()
