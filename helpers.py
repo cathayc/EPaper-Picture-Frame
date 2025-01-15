@@ -75,6 +75,9 @@ def download_images_from_folder(local_destination):
         except requests.exceptions.JSONDecodeError:
             # Print the response content if there is an issue with JSON decoding
             print(response.text)
+    # Unauthorized response
+    elif response.status_code == 401:
+        pass
     else:
         # Print the response content for non-OK status codes
         print(response.text)
@@ -129,7 +132,6 @@ def display_images(imgPath, refresh_second, loop = True):
             print(count)
             # Mod this
             # single_image = images[count % len(images)]
-            len(images)
             random_index = random.randint(0, len(images) - 1)
             single_image = images[random_index]
             # Get current images
@@ -142,7 +144,11 @@ def display_images(imgPath, refresh_second, loop = True):
             print('Successfully converted to bmp image')
 
             print('Displaying')
-            epd.display(epd.getbuffer(bmp_image))
+            try:
+                epd.display(epd.getbuffer(bmp_image))
+            except IOError as e:
+                print('Display failed')
+                print(e)
             count= count + 1
             time.sleep(refresh_second)
             # Download images from folder if we successfully looped through all images

@@ -1,8 +1,4 @@
 #!/bin/bash
-
-while true; do
-    source $HOME/AI-Picture-Frame/.venv/bin/activate
-    python3 $HOME/AI-Picture-Frame/helloworld.py
-    deactivate
-    sleep 300
-done
+cd /home/cathychang/AI-Picture-Frame
+source .venv/bin/activate
+python main.py --refresh-second 100 > /home/cathychang/frame_script_output.log 2>&1
