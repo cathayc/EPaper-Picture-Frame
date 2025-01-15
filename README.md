@@ -1,6 +1,6 @@
 # Introduction
 
-This project is born out of curiousity into how ePaper displays and AI picture generations work. It is a picture frame that can do the following two tasks:
+This project is born out of curiousity on how ePaper displays work. It is a picture frame that can do the following two tasks:
 1. Slowly display pre-uploaded image on the ePaper display
 2. Take in a user-inputted prompt, generate + download AI images, and display images on the ePaper display
 
@@ -10,7 +10,6 @@ This project is born out of curiousity into how ePaper displays and AI picture g
 - [Usage](#usage)
   - [Normal Usage](#normal-usage)
   - [Prompted AI Images](#prompted-ai-images)
-  - [Random Phrases AI images](#random-phrases-ai-images)
 
 ## Install
 
@@ -28,8 +27,8 @@ On the Raspberry Pi (or after ssh-ing into the Raspberry Pi):
    * Make sure pip is installed: `sudo apt install python3-pip`
 2. Clone this repo
    * Create a new SSH key and add to your github [Instructions](https://phoenixnap.com/kb/git-clone-ssh)
-   * `git clone git@github.com:cathayc/AI-Picture-Frame.git`
-   * Navigate to the new the project directory: `cd AI-Picture-Frame/`
+   * `git clone git@github.com:cathayc/EPaper-Picture-Frame.git`
+   * Navigate to the new the project directory: `cd EPaper-Picture-Frame/`
 4. Create a virtual environment and make sure requirements are installed
    * `python3 -m venv .venv`
    * `source .venv/bin/activate`
@@ -40,10 +39,9 @@ On the Raspberry Pi (or after ssh-ing into the Raspberry Pi):
    * If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 main.py --refresh-second 10`.
 
 ## Usage
-There are three types of usages:
+There are two types of usages:
 1. Slowly display pre-uploaded images
 2. Given a prompt, generate AI images and slowly display them
-3. Generate AI images by randomly selecting phrases from a .txt file, then slowly display them
 
 ### Normal Usage
 
@@ -59,25 +57,18 @@ The normal usage takes images from `Images/GeneralImages` and slowly displays th
    * Add prompt to your call: `python3 main.py --call-leo "cat chase horse in wild west"`
    * The program will now call leonardo with your prompt, download the images, and display on your epaper display.
 
-### Random Phrases AI images
-Repeat steps 0 and 1 from above. Then, 
-1. modify `word_list.txt` with your phrases.
-2. Type `python3 main.py --random-call-leo`
-
 ## Making this script run at startup
 
 To make the script run at startup, you'll need to use the `run_script.sh` and `run_script.service` files found at the root of the directory.
 
-1. Make sure the paths point to where the files are.
-   * In this case, you will want to replace `/home/cathychang/AI-Picture-Frame` in both `run_script.sh` and `run_script.service` to your project directory.
+1. At your home directory, add a cron job.
+   * Open up the crontab file: `contab -e`
+   * Add the line `@reboot /home/cathychang/run_script.sh > /home/cathychang/frame_script_output.log 2>&1`
+   * Save and exit (ctrl x + ctrl o)
 2. Permissions:
    * Ensure that both the run_script.sh script and the main.py script have the execute permission:
-   * `chmod +x /path-to-AI-Picture-Frame/run_script.sh`
-   * `chmod +x /path-to-AI-Picture-Frame/main.py`
+   * `chmod +x /path-to-EPaper-Picture-Frame/run_script.sh`
 3. Reload systemd and start the service. Every time you make changes to the service, you'll need to restart it by running the same command:
-   * `sudo systemctl daemon-reload`
-   * `sudo systemctl start run_script.service`
-4. Check service status, and use the following commands to debug if necessary:
    * `sudo systemctl status run_script.service`
    * `journalctl -xe`
 
