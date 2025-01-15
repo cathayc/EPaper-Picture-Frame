@@ -68,9 +68,11 @@ To make the script run at startup, you'll need to use the `run_script.sh` and `r
 2. Permissions:
    * Ensure that both the run_script.sh script and the main.py script have the execute permission:
    * `chmod +x /path-to-EPaper-Picture-Frame/run_script.sh`
-3. Reload systemd and start the service. Every time you make changes to the service, you'll need to restart it by running the same command:
-   * `sudo systemctl status run_script.service`
-   * `journalctl -xe`
+3. Reboot and see whether there are errors.
+   * Reboot: `sudo reboot`
+   * See errors: Check out the logfile `/home/cathychang/frame_script_output.log` (in this case, it won't be cathychang, will need to replace)
+
+  
 
 
 
