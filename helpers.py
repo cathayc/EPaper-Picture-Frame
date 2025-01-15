@@ -136,15 +136,15 @@ def display_images(imgPath, refresh_second, loop = True):
             single_image = images[random_index]
             # Get current images
             currentImage = os.path.join(imagedir, single_image)
-            image = Image.open(currentImage)
-            print('Current image name: ', currentImage)
-            image = image.resize((width, height))
-
-            bmp_image = image.convert("RGB")
-            print('Successfully converted to bmp image')
-
-            print('Displaying')
             try:
+                image = Image.open(currentImage)
+                print('Current image name: ', currentImage)
+                image = image.resize((width, height))
+
+                bmp_image = image.convert("RGB")
+                print('Successfully converted to bmp image')
+
+                print('Displaying')
                 epd.display(epd.getbuffer(bmp_image))
             except IOError as e:
                 print('Display failed')
