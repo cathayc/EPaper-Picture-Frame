@@ -8,8 +8,6 @@ This project is born out of curiousity on how ePaper displays work. It is a pict
 
 - [Install](#install)
 - [Usage](#usage)
-  - [Normal Usage](#normal-usage)
-  - [Prompted AI Images](#prompted-ai-images)
 
 ## Install
 
@@ -39,15 +37,10 @@ On the Raspberry Pi (or after ssh-ing into the Raspberry Pi):
    * If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 main.py --refresh-second 10`.
 
 ## Usage
-There are two types of usages:
-1. Slowly display pre-uploaded images
-2. Given a prompt, generate AI images and slowly display them
-
-### Normal Usage
-
-The normal usage takes images from `Images/GeneralImages` and slowly displays them. Take the following steps:
-1. Run `python3 main.py`. If everything's installed properly, this should start playing all the pictures from the `Images/GeneralImages` directory.
-2. If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 main.py --refresh-second 10`.
+The main usage is to download and display pictures from a Dropbox folder. Take the following steps:
+1. Obtain your dropbox access key 
+2. Run `python3 main.py`. If everything's installed properly, this should start playing all the pictures from the `Images/GeneralImages` directory.
+3. If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 main.py --refresh-second 10`.
 
 ### Prompted AI Images
 0. To generate AI images, you will need to create a leonardo.ai account. After doing so, you will obtain your own API key. Store this in the config file:
