@@ -1,8 +1,6 @@
 # Introduction
 
-This project is born out of curiousity on how ePaper displays work. It is a picture frame that can do the following two tasks:
-1. Slowly display pre-uploaded image on the ePaper display
-2. Take in a user-inputted prompt, generate + download AI images, and display images on the ePaper display
+This project is born out of curiousity on how ePaper displays work. It simply downloads the pictures from a Dropbox folder, loops them, and displays them on the ePaper display.
 
 ## Table Of Contents
 
@@ -11,7 +9,9 @@ This project is born out of curiousity on how ePaper displays work. It is a pict
 
 ## Install
 
-**Note:** Some of these installation instructions takes from Tom Whitell's [SlowMovie](https://github.com/TomWhitwell/SlowMovie) setup instructions. This installation instruction assumes you have access to your Raspberry Pi and that you have the hardware set up properly. See the [Medium post](https://debugger.medium.com/how-to-build-a-very-slow-movie-player-in-2020-c5745052e4e4) for more complete instructions. AI Picture Frame requires [Python 3](https://www.python.org). It uses [FFmpeg](https://ffmpeg.org) via [ffmpeg-python](https://github.com/kkroening/ffmpeg-python) for video processing, [Pillow](https://python-pillow.org) for image processing, and [Omni-EPD](https://github.com/robweber/omni-epd) for loading the correct e-ink display driver. [ConfigArgParse](https://github.com/bw2/ConfigArgParse) is used for configuration and argument handling.
+**Note:** This project draws inspiration from Tom Whitell's [SlowMovie](https://github.com/TomWhitwell/SlowMovie) project. 
+
+This installation instruction assumes you have access to your Raspberry Pi and that you have the hardware set up properly. AI Picture Frame requires [Python 3](https://www.python.org). It uses [FFmpeg](https://ffmpeg.org) via [ffmpeg-python](https://github.com/kkroening/ffmpeg-python) for video processing, [Pillow](https://python-pillow.org) for image processing, and [Omni-EPD](https://github.com/robweber/omni-epd) for loading the correct e-ink display driver.
 
 On the Raspberry Pi (or after ssh-ing into the Raspberry Pi):
 0. Make sure SPI is enabled
