@@ -61,11 +61,12 @@ def display_images(imgPath, refresh_second, loop = True):
         if not images:
             print("No images found")
             sys.exit()
+        print(f"Have {len(images)} images to display")
         
         # Want this to be looping if the loop = True
         count = 0
         while loop:
-            print(count)
+            print(f"Displaying image {count + 1}")
             # Mod this
             # single_image = images[count % len(images)]
             random_index = random.randint(0, len(images) - 1)
