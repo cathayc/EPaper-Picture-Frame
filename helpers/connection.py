@@ -2,8 +2,12 @@ import os
 import io
 import requests
 import re
-
+from PIL import Image
+from pillow_heif import register_heif_opener
 from config import GOOGLE_DRIVE_FOLDER_ID
+
+# Register HEIF opener with Pillow
+register_heif_opener()
 
 def get_direct_download_link(file_id):
     return f"https://drive.google.com/uc?export=download&id={file_id}"
@@ -75,4 +79,39 @@ def download_images_from_folder(local_destination, folder_path):
                     print(f"Warning: Could not delete file {local_file}: {e}")
                 
     except Exception as e:
-        print(f"An error occurred: {e}") 
+        print(f"An error occurred: {e}")
+
+def clean_up_image_files(imgPath):
+    for file in os.listdir(imgPath):
+        file_path = os.path.join(imgPath, file)
+        process_image_file(file_path)
+
+def convert_to_jpg(image_path):
+    """Convert any image format to JPG"""
+    try:
+        # Open image file
+        with Image.open(image_path) as image:
+            # Create JPG path by replacing extension
+            jpg_path = os.path.splitext(image_path)[0] + '.jpg'
+            
+            # Convert and save as JPG
+            image.convert('RGB').save(jpg_path, 'JPEG', quality=95)
+            
+            # Remove original file if it's not already a jpg
+            if not image_path.lower().endswith('.jpg'):
+                os.remove(image_path)
+            
+            print(f"Converted {image_path} to {jpg_path}")
+            return jpg_path
+    except Exception as e:
+        print(f"Failed to convert {image_path}: {e}")
+        return None
+
+def process_image_file(file_path):
+    """Process image file, converting to JPG if needed"""
+    if not os.path.exists(file_path):
+        print(f"File does not exist: {file_path}")
+        
+    if not file_path.lower().endswith('.jpg'):
+        print(f"Converting non-JPG image: {file_path}")
+        convert_to_jpg(file_path)

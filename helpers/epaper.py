@@ -14,58 +14,6 @@ from helpers.connection import download_images_from_folder
 
 from config import GOOGLE_DRIVE_FOLDER_ID
 
-def is_image_file(file_path):
-    """Check if file is an image by trying to open it with PIL"""
-    try:
-        with Image.open(file_path) as img:
-            # Try to load the image to verify it's valid
-            img.load()
-            return True
-    except Exception as e:
-        print(f"Not a valid image file {file_path}: {e}")
-        return False
-
-def convert_to_jpg(image_path):
-    """Convert any image format to JPG"""
-    try:
-        # Open image file
-        with Image.open(image_path) as image:
-            # Create JPG path by replacing extension
-            jpg_path = os.path.splitext(image_path)[0] + '.jpg'
-            
-            # Convert and save as JPG
-            image.convert('RGB').save(jpg_path, 'JPEG', quality=95)
-            
-            # Verify the new file exists and is valid
-            if not is_image_file(jpg_path):
-                print(f"Conversion failed: {jpg_path} is not a valid image")
-                if os.path.exists(jpg_path):
-                    os.remove(jpg_path)            
-            
-            # Remove original file if it's not already a jpg
-            if not image_path.lower().endswith('.jpg'):
-                os.remove(image_path)
-            
-            print(f"Successfully converted {image_path} to {jpg_path}")
-    except Exception as e:
-        print(f"Failed to convert file {image_path}: {e}")
-        # Clean up any partial conversion
-        jpg_path = os.path.splitext(image_path)[0] + '.jpg'
-        if os.path.exists(jpg_path):
-            os.remove(jpg_path)
-
-def process_image_file(file_path):
-    """Process image file, converting to JPG if needed"""
-    if not os.path.exists(file_path):
-        print(f"File does not exist: {file_path}")
-        
-    if not is_image_file(file_path):
-        print(f"Skipping non-image file: {file_path}")
-        
-    if not file_path.lower().endswith('.jpg'):
-        print(f"Converting non-JPG image: {file_path}")
-        convert_to_jpg(file_path)
-
 # Define the setup_gpio function
 def setup_gpio():
     # Set up the GPIO pin as an output
@@ -84,11 +32,6 @@ def exithandler(signum, frame):
         epd_driver.epdconfig.module_exit()
     finally:
         sys.exit()
-
-def convert_files_to_jpg(imgPath):
-    for file in os.listdir(imgPath):
-        file_path = os.path.join(imgPath, file)
-        process_image_file(file_path)
 
 def display_images(imgPath, refresh_second, loop = True):
     # Ensure this is the correct path to your video folder
