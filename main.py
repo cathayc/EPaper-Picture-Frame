@@ -7,8 +7,8 @@ import sys
 import signal
 import argparse
 
-from epaper_helpers import setup_gpio, cleanup_gpio, exithandler, display_images
-from epaper_helpers import download_images_from_folder
+from helpers.epaper import setup_gpio, cleanup_gpio, exithandler, display_images
+from helpers.connection import download_images_from_folder
 
 
 def main(refresh_second, folder_path):
