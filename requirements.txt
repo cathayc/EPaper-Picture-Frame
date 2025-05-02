@@ -6,4 +6,3 @@ git+https://github.com/robweber/omni-epd.git@v0.4.2#egg=omni-epd
 requests==2.31.0
 RPi.GPIO==0.7.1
 gpiozero==2.0
-pillow-heif==0.13.1

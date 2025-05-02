@@ -8,54 +8,70 @@ import RPi.GPIO as GPIO
 from PIL import Image
 import io
 from waveshare_epd import epd7in5_V2 as epd_driver
-from pillow_heif import register_heif_opener
 import mimetypes
 
 from helpers.connection import download_images_from_folder
 
 from config import GOOGLE_DRIVE_FOLDER_ID
 
-# Register HEIF opener with Pillow
-register_heif_opener()
-
 def is_image_file(file_path):
     """Check if file is an image by trying to open it with PIL"""
     try:
         with Image.open(file_path) as img:
+            # Try to load the image to verify it's valid
+            img.load()
             return True
-    except:
+    except Exception as e:
+        print(f"Not a valid image file {file_path}: {e}")
         return False
 
 def convert_to_jpg(image_path):
     """Convert any image format to JPG"""
     try:
         # Open image file
-        image = Image.open(image_path)
-        
-        # Create JPG path by replacing extension
-        jpg_path = os.path.splitext(image_path)[0] + '.jpg'
-        
-        # Convert and save as JPG
-        image.convert('RGB').save(jpg_path, 'JPEG')
-        
-        # Remove original file if it's not already a jpg
-        if not image_path.lower().endswith('.jpg'):
-            os.remove(image_path)
-        
-        print(f"Converted {image_path} to {jpg_path}")
-        return jpg_path
+        with Image.open(image_path) as image:
+            # Create JPG path by replacing extension
+            jpg_path = os.path.splitext(image_path)[0] + '.jpg'
+            
+            # Convert and save as JPG
+            image.convert('RGB').save(jpg_path, 'JPEG', quality=95)
+            
+            # Verify the new file exists and is valid
+            if not is_image_file(jpg_path):
+                print(f"Conversion failed: {jpg_path} is not a valid image")
+                if os.path.exists(jpg_path):
+                    os.remove(jpg_path)
+                return None
+            
+            # Remove original file if it's not already a jpg
+            if not image_path.lower().endswith('.jpg'):
+                os.remove(image_path)
+            
+            print(f"Successfully converted {image_path} to {jpg_path}")
+            return jpg_path
     except Exception as e:
         print(f"Failed to convert file {image_path}: {e}")
+        # Clean up any partial conversion
+        jpg_path = os.path.splitext(image_path)[0] + '.jpg'
+        if os.path.exists(jpg_path):
+            os.remove(jpg_path)
         return None
 
 def process_image_file(file_path):
     """Process image file, converting to JPG if needed"""
+    if not os.path.exists(file_path):
+        print(f"File does not exist: {file_path}")
+        return None
+        
     if not is_image_file(file_path):
         print(f"Skipping non-image file: {file_path}")
         return None
         
     if not file_path.lower().endswith('.jpg'):
+        print(f"Converting non-JPG image: {file_path}")
         return convert_to_jpg(file_path)
+    
+    print(f"Using existing JPG file: {file_path}")
     return file_path
 
 # Define the setup_gpio function
