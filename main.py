@@ -27,7 +27,7 @@ def main(refresh_second, folder_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Feature flag in Python")
     parser.add_argument("--refresh-second", type=int, default = 15, help="Add the number of seconds you'd like the paper to refresh at. Default to 15.")
-    parser.add_argument("--folder-path", type=str, default = "/AI Picture Frame", help="Add the number of seconds you'd like the paper to refresh at. Default to 15.")
+    parser.add_argument("--folder-path", type=str, default = "/Images", help="Add the number of seconds you'd like the paper to refresh at. Default to 15.")
     args = parser.parse_args()
 
     main(args.refresh_second, args.folder_path)
