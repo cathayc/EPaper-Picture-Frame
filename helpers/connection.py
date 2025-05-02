@@ -48,7 +48,7 @@ def download_images_from_folder(local_destination, folder_path):
                 
             file_name = filename_match.group(1)
             local_path = os.path.join(local_destination, file_name)
-            gd_file_names.add(file_name)
+            gd_file_names.add(file_name.split('.')[0])
             
             # Skip if file already exists
             if file_name in current_files:
@@ -67,7 +67,7 @@ def download_images_from_folder(local_destination, folder_path):
             
         # Remove files that are no longer in Google Drive
         for local_file in current_files:
-            if local_file not in gd_file_names:
+            if local_file.split('.')[0] not in gd_file_names:
                 try:
                     os.remove(os.path.join(local_destination, local_file))
                     print(f"Deleted file: {local_file}")

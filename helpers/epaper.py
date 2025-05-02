@@ -8,10 +8,55 @@ import RPi.GPIO as GPIO
 from PIL import Image
 import io
 from waveshare_epd import epd7in5_V2 as epd_driver
+from pillow_heif import register_heif_opener
+import mimetypes
 
 from helpers.connection import download_images_from_folder
 
 from config import GOOGLE_DRIVE_FOLDER_ID
+
+# Register HEIF opener with Pillow
+register_heif_opener()
+
+def is_image_file(file_path):
+    """Check if file is an image by trying to open it with PIL"""
+    try:
+        with Image.open(file_path) as img:
+            return True
+    except:
+        return False
+
+def convert_to_jpg(image_path):
+    """Convert any image format to JPG"""
+    try:
+        # Open image file
+        image = Image.open(image_path)
+        
+        # Create JPG path by replacing extension
+        jpg_path = os.path.splitext(image_path)[0] + '.jpg'
+        
+        # Convert and save as JPG
+        image.convert('RGB').save(jpg_path, 'JPEG')
+        
+        # Remove original file if it's not already a jpg
+        if not image_path.lower().endswith('.jpg'):
+            os.remove(image_path)
+        
+        print(f"Converted {image_path} to {jpg_path}")
+        return jpg_path
+    except Exception as e:
+        print(f"Failed to convert file {image_path}: {e}")
+        return None
+
+def process_image_file(file_path):
+    """Process image file, converting to JPG if needed"""
+    if not is_image_file(file_path):
+        print(f"Skipping non-image file: {file_path}")
+        return None
+        
+    if not file_path.lower().endswith('.jpg'):
+        return convert_to_jpg(file_path)
+    return file_path
 
 # Define the setup_gpio function
 def setup_gpio():
@@ -31,10 +76,6 @@ def exithandler(signum, frame):
         epd_driver.epdconfig.module_exit()
     finally:
         sys.exit()
-
-def supported_filetype(file):
-    _, ext = os.path.splitext(file)
-    return ext.lower() in(".png", ".jpg")
 
 def display_images(imgPath, refresh_second, loop = True):
     # Ensure this is the correct path to your video folder
@@ -56,7 +97,14 @@ def display_images(imgPath, refresh_second, loop = True):
 
         setup_gpio()
 
-        ordered_images = list(filter(supported_filetype, os.listdir(imagedir)))
+        # Get list of images and convert any non-JPG files
+        ordered_images = []
+        for file in os.listdir(imagedir):
+            file_path = os.path.join(imagedir, file)
+            processed_path = process_image_file(file_path)
+            if processed_path:
+                ordered_images.append(os.path.basename(processed_path))
+
         images = random.sample(ordered_images, len(ordered_images))
         if not images:
             print("No images found")
@@ -67,11 +115,8 @@ def display_images(imgPath, refresh_second, loop = True):
         count = 0
         while loop:
             print(f"Displaying image {count + 1}")
-            # Mod this
-            # single_image = images[count % len(images)]
             random_index = random.randint(0, len(images) - 1)
             single_image = images[random_index]
-            # Get current images
             currentImage = os.path.join(imagedir, single_image)
             try:
                 image = Image.open(currentImage)
@@ -95,7 +140,13 @@ def display_images(imgPath, refresh_second, loop = True):
                 except:
                     pass
                 # Update the images list
-                new_ordered_images = list(filter(supported_filetype, os.listdir(imagedir)))
+                new_ordered_images = []
+                for file in os.listdir(imagedir):
+                    file_path = os.path.join(imagedir, file)
+                    processed_path = process_image_file(file_path)
+                    if processed_path:
+                        new_ordered_images.append(os.path.basename(processed_path))
+                
                 if ordered_images != new_ordered_images:
                     print(f"Images updated to: {new_ordered_images}")
                     # TODO: Delete old images
