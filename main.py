@@ -7,11 +7,11 @@ import sys
 import signal
 import argparse
 
-from helpers import setup_gpio, cleanup_gpio, exithandler, display_images
-from helpers import download_images_from_folder
+from epaper_helpers import setup_gpio, cleanup_gpio, exithandler, display_images
+from epaper_helpers import download_images_from_folder
 
 
-def main(call_leo, random_call_leo, refresh_second):
+def main(refresh_second, folder_path):
     print(f"refresh second: {refresh_second}")
     signal.signal(signal.SIGTERM, exithandler)
     signal.signal(signal.SIGINT, exithandler)
@@ -19,16 +19,15 @@ def main(call_leo, random_call_leo, refresh_second):
     setup_gpio()  # Set up the GPIO pins
     imgPath = "Images/GeneralImages"
     try:
-        download_images_from_folder(imgPath)
+        download_images_from_folder(imgPath, folder_path)
     except:
         pass
     display_images(imgPath, refresh_second)
  
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Example of a feature flag in Python")
-    parser.add_argument("--call-leo", type=str, help="Call Leonardo AI with the specified prompt")
-    parser.add_argument("--random-call-leo", action="store_true", help="Call Leonardo AI with randomly generated words")
-    parser.add_argument("--refresh-second", type=int, default = 15, help="Add the number of seconds you'd like the paper to refresh at")
+    parser = argparse.ArgumentParser(description="Feature flag in Python")
+    parser.add_argument("--refresh-second", type=int, default = 15, help="Add the number of seconds you'd like the paper to refresh at. Default to 15.")
+    parser.add_argument("--folder-path", type=str, default = "/AI Picture Frame", help="Add the number of seconds you'd like the paper to refresh at. Default to 15.")
     args = parser.parse_args()
 
-    main(args.call_leo, args.random_call_leo, args.refresh_second)
+    main(args.refresh_second, args.folder_path)
