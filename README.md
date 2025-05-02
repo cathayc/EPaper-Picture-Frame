@@ -9,8 +9,6 @@ This project is born out of curiousity on how ePaper displays work. It simply do
 
 ## Install
 
-**Note:** This project draws inspiration from Tom Whitell's [SlowMovie](https://github.com/TomWhitwell/SlowMovie) project. 
-
 This installation instruction assumes you have access to your Raspberry Pi and that you have the hardware set up properly. AI Picture Frame requires [Python 3](https://www.python.org). It uses [FFmpeg](https://ffmpeg.org) via [ffmpeg-python](https://github.com/kkroening/ffmpeg-python) for video processing, [Pillow](https://python-pillow.org) for image processing, and [Omni-EPD](https://github.com/robweber/omni-epd) for loading the correct e-ink display driver.
 
 On the Raspberry Pi (or after ssh-ing into the Raspberry Pi):
@@ -30,7 +28,6 @@ On the Raspberry Pi (or after ssh-ing into the Raspberry Pi):
 4. Create a virtual environment and make sure requirements are installed
    * `python3 -m venv .venv`
    * `source .venv/bin/activate`
-   * `pip3 install git+https://github.com/robweber/omni-epd.git#egg=omni-epd`
    * `pip3 install -r requirements.txt`
 5. Test it out
    * Run `python3 main.py`. If everything's installed properly, this should start playing all the pictures from the `Images/GeneralImages` directory.
