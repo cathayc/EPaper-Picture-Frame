@@ -9,12 +9,15 @@ from PIL import Image
 import io
 from waveshare_epd import epd7in5_V2 as epd_driver
 
+from helpers.connection import download_images_from_folder
+
 from config import GOOGLE_DRIVE_FOLDER_ID
 
 # Define the setup_gpio function
 def setup_gpio():
     # Set up the GPIO pin as an output
-    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)  # Disable warnings
+    GPIO.setmode(GPIO.BCM)  # Set BCM mode
     your_pin_number = 20  # Replace with your actual GPIO pin number
     GPIO.setup(your_pin_number, GPIO.OUT)
 
@@ -36,6 +39,11 @@ def supported_filetype(file):
 def display_images(imgPath, refresh_second, loop = True):
     # Ensure this is the correct path to your video folder
     imagedir = os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath)
+    
+    # Set GPIO mode before initializing display
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BCM)
+    
     epd = epd_driver.EPD()
     width = epd.width
     height = epd.height
