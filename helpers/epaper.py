@@ -38,7 +38,7 @@ def supported_filetype(file):
 
 def display_images(imgPath, refresh_second, loop = True):
     # Ensure this is the correct path to your video folder
-    imagedir = os.path.join(os.path.dirname(os.path.realpath(__file__)), imgPath)
+    imagedir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), imgPath)
     
     # Set GPIO mode before initializing display
     GPIO.setwarnings(False)
