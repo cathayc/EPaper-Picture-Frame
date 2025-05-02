@@ -40,39 +40,31 @@ def convert_to_jpg(image_path):
             if not is_image_file(jpg_path):
                 print(f"Conversion failed: {jpg_path} is not a valid image")
                 if os.path.exists(jpg_path):
-                    os.remove(jpg_path)
-                return None
+                    os.remove(jpg_path)            
             
             # Remove original file if it's not already a jpg
             if not image_path.lower().endswith('.jpg'):
                 os.remove(image_path)
             
             print(f"Successfully converted {image_path} to {jpg_path}")
-            return jpg_path
     except Exception as e:
         print(f"Failed to convert file {image_path}: {e}")
         # Clean up any partial conversion
         jpg_path = os.path.splitext(image_path)[0] + '.jpg'
         if os.path.exists(jpg_path):
             os.remove(jpg_path)
-        return None
 
 def process_image_file(file_path):
     """Process image file, converting to JPG if needed"""
     if not os.path.exists(file_path):
         print(f"File does not exist: {file_path}")
-        return None
         
     if not is_image_file(file_path):
         print(f"Skipping non-image file: {file_path}")
-        return None
         
     if not file_path.lower().endswith('.jpg'):
         print(f"Converting non-JPG image: {file_path}")
-        return convert_to_jpg(file_path)
-    
-    print(f"Using existing JPG file: {file_path}")
-    return file_path
+        convert_to_jpg(file_path)
 
 # Define the setup_gpio function
 def setup_gpio():
@@ -92,6 +84,11 @@ def exithandler(signum, frame):
         epd_driver.epdconfig.module_exit()
     finally:
         sys.exit()
+
+def convert_files_to_jpg(imgPath):
+    for file in os.listdir(imgPath):
+        file_path = os.path.join(imgPath, file)
+        process_image_file(file_path)
 
 def display_images(imgPath, refresh_second, loop = True):
     # Ensure this is the correct path to your video folder
@@ -113,13 +110,14 @@ def display_images(imgPath, refresh_second, loop = True):
 
         setup_gpio()
 
-        # Get list of images and convert any non-JPG files
+        # First convert all files to JPG, then process the images
+        print(f"Processing images in {imagedir}")
+        convert_files_to_jpg(imagedir)
+        
         ordered_images = []
         for file in os.listdir(imagedir):
             file_path = os.path.join(imagedir, file)
-            processed_path = process_image_file(file_path)
-            if processed_path:
-                ordered_images.append(os.path.basename(processed_path))
+            ordered_images.append(os.path.basename(file_path))
 
         images = random.sample(ordered_images, len(ordered_images))
         if not images:
