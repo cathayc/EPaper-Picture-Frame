@@ -5,6 +5,7 @@ import re
 from PIL import Image
 import subprocess
 from config import GOOGLE_DRIVE_FOLDER_ID
+import glob
 
 def get_direct_download_link(file_id):
     return f"https://drive.google.com/uc?export=download&id={file_id}"
@@ -116,8 +117,20 @@ def convert_heic_to_jpg(input_path):
         print(f"Converting HEIC file: {input_path} to {output_path}")
         # Use heif-convert from libheif
         subprocess.run(['heif-convert', input_path, output_path], check=True)
+        
         # Remove original HEIC file
         os.remove(input_path)
+        
+        # Remove any auxiliary files that might have been created
+        base_name = os.path.splitext(input_path)[0]
+        aux_pattern = f"{base_name}-urn:com:apple:photo:*.jpg"
+        for aux_file in glob.glob(aux_pattern):
+            try:
+                os.remove(aux_file)
+                print(f"Removed auxiliary file: {aux_file}")
+            except Exception as e:
+                print(f"Warning: Could not remove auxiliary file {aux_file}: {e}")
+        
         return output_path
     except subprocess.CalledProcessError as e:
         print(f"Error converting HEIC file: {e}")
