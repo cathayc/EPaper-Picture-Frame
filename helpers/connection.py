@@ -83,7 +83,10 @@ def download_images_from_folder(local_destination):
 def clean_up_image_files(imgPath):
     for file in os.listdir(imgPath):
         file_path = os.path.join(imgPath, file)
-        process_image_file(file_path)
+        if os.path.exists(file_path):
+            process_image_file(file_path)
+        else:
+            print(f"File not found: {file_path}")
 
 def convert_to_jpg(image_path):
     """Convert any image format to JPG"""
