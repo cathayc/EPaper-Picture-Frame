@@ -10,7 +10,7 @@ import io
 from waveshare_epd import epd7in5_V2 as epd_driver
 import mimetypes
 
-from helpers.connection import download_images_from_folder
+from helpers.connection import download_images_from_folder, clean_up_image_files
 
 from config import GOOGLE_DRIVE_FOLDER_ID
 
@@ -61,6 +61,7 @@ def display_images(imgPath, refresh_second, loop = True):
         setup_gpio()
 
         download_images_from_folder(imgPath)
+        clean_up_image_files(imgPath)
         
         ordered_images = _get_ordered_image_list(imgPath)
 
@@ -97,6 +98,7 @@ def display_images(imgPath, refresh_second, loop = True):
             # Redownload images every 5 loops
             if count // len(images) == 5:
                 download_images_from_folder(imgPath)
+                clean_up_image_files(imgPath)
                 ordered_images = _get_ordered_image_list(imgPath)
                 images = random.sample(ordered_images, len(ordered_images))
         print('Closing...')
