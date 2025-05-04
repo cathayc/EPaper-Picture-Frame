@@ -4,16 +4,23 @@
 set -e
 
 echo "Installing system dependencies..."
-sudo apt-get update
-sudo apt-get install -y \
-    python3-dev \
-    python3-pip \
-    python3-setuptools \
-    python3-wheel \
-    build-essential \
-    libjpeg-dev \
-    zlib1g-dev \
-    libheif-dev
+# For macOS
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    brew install libheif
+# For Linux/Raspberry Pi
+else
+    sudo apt-get update
+    sudo apt-get install -y \
+        python3-dev \
+        python3-pip \
+        python3-setuptools \
+        python3-wheel \
+        build-essential \
+        libjpeg-dev \
+        zlib1g-dev \
+        libheif-dev \
+        imagemagick
+fi
 
 echo "Creating virtual environment..."
 python3 -m venv .venv
@@ -21,6 +28,11 @@ source .venv/bin/activate
 
 echo "Installing Python packages..."
 pip install --upgrade pip
+
+# Install Pillow first
+pip install Pillow==9.5.0
+
+# Install remaining requirements
 pip install -r requirements.txt
 
 echo "Setup complete! To activate the virtual environment, run:"

@@ -33,6 +33,14 @@ def exithandler(signum, frame):
     finally:
         sys.exit()
 
+def _get_ordered_image_list(imgPath):
+    imagedir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), imgPath)
+    ordered_images = []
+    for file in os.listdir(imagedir):
+        file_path = os.path.join(imagedir, file)
+        ordered_images.append(os.path.basename(file_path))
+    return ordered_images
+
 def display_images(imgPath, refresh_second, loop = True):
     # Ensure this is the correct path to your video folder
     imagedir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), imgPath)
@@ -50,22 +58,15 @@ def display_images(imgPath, refresh_second, loop = True):
         epd.init()
         print('Clearing')
         epd.Clear()
-
         setup_gpio()
-
-        # First convert all files to JPG, then process the images
-        print(f"Processing images in {imagedir}")
-        convert_files_to_jpg(imagedir)
         
-        ordered_images = []
-        for file in os.listdir(imagedir):
-            file_path = os.path.join(imagedir, file)
-            ordered_images.append(os.path.basename(file_path))
+        ordered_images = _get_ordered_image_list(imgPath)
 
         images = random.sample(ordered_images, len(ordered_images))
         if not images:
             print("No images found")
             sys.exit()
+        
         print(f"Have {len(images)} images to display")
         
         # Want this to be looping if the loop = True
@@ -90,24 +91,11 @@ def display_images(imgPath, refresh_second, loop = True):
                 print(e)
             count= count + 1
             time.sleep(refresh_second)
-            # Download images from folder if we successfully looped through all images
-            if count % len(images) == 0:
-                try:
-                    download_images_from_folder(imgPath)
-                except:
-                    pass
-                # Update the images list
-                new_ordered_images = []
-                for file in os.listdir(imagedir):
-                    file_path = os.path.join(imagedir, file)
-                    processed_path = process_image_file(file_path)
-                    if processed_path:
-                        new_ordered_images.append(os.path.basename(processed_path))
-                
-                if ordered_images != new_ordered_images:
-                    print(f"Images updated to: {new_ordered_images}")
-                    # TODO: Delete old images
-                ordered_images = new_ordered_images
+            
+            # Redownload images every 5 loops
+            if count // len(images) == 5:
+                download_images_from_folder(imgPath)
+                ordered_images = _get_ordered_image_list(imgPath)
                 images = random.sample(ordered_images, len(ordered_images))
         print('Closing...')
         epd.reset()

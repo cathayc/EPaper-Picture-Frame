@@ -3,16 +3,13 @@ import io
 import requests
 import re
 from PIL import Image
-from pillow_heif import register_heif_opener
+import subprocess
 from config import GOOGLE_DRIVE_FOLDER_ID
-
-# Register HEIF opener with Pillow
-register_heif_opener()
 
 def get_direct_download_link(file_id):
     return f"https://drive.google.com/uc?export=download&id={file_id}"
 
-def download_images_from_folder(local_destination, folder_path):
+def download_images_from_folder(local_destination):
     print("Checking to download images from Google Drive")
     
     # Create the directory if it doesn't exist
@@ -36,6 +33,8 @@ def download_images_from_folder(local_destination, folder_path):
 
         # Get current files in local destination
         current_files = set(os.listdir(local_destination))
+        # We want to remove the extensions
+        current_files = [os.path.splitext(file)[0] for file in current_files]
         
         print("Current files:", current_files)
         
@@ -55,7 +54,7 @@ def download_images_from_folder(local_destination, folder_path):
             gd_file_names.add(file_name.split('.')[0])
             
             # Skip if file already exists
-            if file_name in current_files:
+            if file_name.split('.')[0] in current_files:
                 continue
                 
             print(f"Downloading file: {file_name}")
@@ -107,11 +106,31 @@ def convert_to_jpg(image_path):
         print(f"Failed to convert {image_path}: {e}")
         return None
 
+def convert_heic_to_jpg(input_path):
+    """Convert HEIC file to JPG using system tools"""
+    try:
+        output_path = os.path.splitext(input_path)[0] + '.jpg'
+        # Use heif-convert from libheif
+        subprocess.run(['heif-convert', input_path, output_path], check=True)
+        # Remove original HEIC file
+        os.remove(input_path)
+        return output_path
+    except subprocess.CalledProcessError as e:
+        print(f"Error converting HEIC file: {e}")
+        return None
+    except Exception as e:
+        print(f"Unexpected error converting HEIC file: {e}")
+        return None
+
 def process_image_file(file_path):
     """Process image file, converting to JPG if needed"""
     if not os.path.exists(file_path):
         print(f"File does not exist: {file_path}")
+        return
         
-    if not file_path.lower().endswith('.jpg'):
+    if file_path.lower().endswith('.heic'):
+        print(f"Converting HEIC image: {file_path}")
+        convert_heic_to_jpg(file_path)
+    elif not file_path.lower().endswith('.jpg'):
         print(f"Converting non-JPG image: {file_path}")
         convert_to_jpg(file_path)
