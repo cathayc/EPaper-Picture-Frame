@@ -8,15 +8,17 @@ import signal
 import argparse
 
 from helpers.epaper import setup_gpio, cleanup_gpio, exithandler, display_images
+from helpers.connection import download_images_from_folder
 
 
 def main(refresh_second):
+    print(f"refresh second: {refresh_second}")
     signal.signal(signal.SIGTERM, exithandler)
     signal.signal(signal.SIGINT, exithandler)
-    print(f"refresh second: {refresh_second}")
     
     setup_gpio()  # Set up the GPIO pins
-    display_images(refresh_second)
+    imgPath = "Images"
+    display_images(imgPath, refresh_second)
  
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Feature flag in Python")
