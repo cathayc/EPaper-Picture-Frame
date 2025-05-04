@@ -33,7 +33,39 @@ pip install --upgrade pip
 # Install all requirements
 pip install -r requirements.txt
 
+echo "Setting up systemd service..."
+# Create service file
+sudo tee /etc/systemd/system/epaper-frame.service > /dev/null << EOL
+[Unit]
+Description=E-Paper Picture Frame
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/EPaper-Picture-Frame
+ExecStart=/home/pi/EPaper-Picture-Frame/run_script.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOL
+
+# Make run_script.sh executable
+chmod +x run_script.sh
+
+# Reload systemd
+sudo systemctl daemon-reload
+
+# Enable and start service
+sudo systemctl enable epaper-frame
+sudo systemctl start epaper-frame
+
 echo "Setup complete! To activate the virtual environment, run:"
 echo "source .venv/bin/activate"
+echo ""
+echo "To check service status, run:"
+echo "sudo systemctl status epaper-frame"
 
 chmod +x setup.sh && ./setup.sh
