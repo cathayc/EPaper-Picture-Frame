@@ -3,6 +3,11 @@
 # Exit on error
 set -e
 
+# Get the current user and home directory
+CURRENT_USER=$(whoami)
+HOME_DIR=$(eval echo ~$CURRENT_USER)
+PROJECT_DIR="$HOME_DIR/EPaper-Picture-Frame"
+
 echo "Installing system dependencies..."
 # For macOS
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -42,9 +47,9 @@ After=network.target
 
 [Service]
 Type=simple
-User=pi
-WorkingDirectory=/home/pi/EPaper-Picture-Frame
-ExecStart=/home/pi/EPaper-Picture-Frame/run_script.sh
+User=$CURRENT_USER
+WorkingDirectory=$PROJECT_DIR
+ExecStart=$PROJECT_DIR/run_script.sh
 Restart=always
 RestartSec=10
 
