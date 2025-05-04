@@ -19,7 +19,8 @@ else
         libjpeg-dev \
         zlib1g-dev \
         libheif-dev \
-        imagemagick
+        libheif-examples \
+        libde265-dev
 fi
 
 echo "Creating virtual environment..."
@@ -29,10 +30,7 @@ source .venv/bin/activate
 echo "Installing Python packages..."
 pip install --upgrade pip
 
-# Install Pillow first
-pip install Pillow==9.5.0
-
-# Install remaining requirements
+# Install all requirements
 pip install -r requirements.txt
 
 echo "Setup complete! To activate the virtual environment, run:"
