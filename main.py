@@ -11,7 +11,7 @@ from helpers.epaper import setup_gpio, cleanup_gpio, exithandler, display_images
 from helpers.connection import download_images_from_folder
 
 
-def main(refresh_second, folder_path):
+def main(refresh_second):
     print(f"refresh second: {refresh_second}")
     signal.signal(signal.SIGTERM, exithandler)
     signal.signal(signal.SIGINT, exithandler)
