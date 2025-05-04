@@ -110,6 +110,7 @@ def convert_heic_to_jpg(input_path):
     """Convert HEIC file to JPG using system tools"""
     try:
         output_path = os.path.splitext(input_path)[0] + '.jpg'
+        print(f"Converting HEIC file: {input_path} to {output_path}")
         # Use heif-convert from libheif
         subprocess.run(['heif-convert', input_path, output_path], check=True)
         # Remove original HEIC file
