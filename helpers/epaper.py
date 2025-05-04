@@ -59,6 +59,8 @@ def display_images(imgPath, refresh_second, loop = True):
         print('Clearing')
         epd.Clear()
         setup_gpio()
+
+        download_images_from_folder(imgPath)
         
         ordered_images = _get_ordered_image_list(imgPath)
 

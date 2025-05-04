@@ -17,12 +17,7 @@ def main(refresh_second):
     signal.signal(signal.SIGINT, exithandler)
     
     setup_gpio()  # Set up the GPIO pins
-    imgPath = "Images"
-    try:
-        download_images_from_folder(imgPath)
-    except:
-        pass
-    display_images(imgPath, refresh_second)
+    display_images(refresh_second)
  
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Feature flag in Python")
