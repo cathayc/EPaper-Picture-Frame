@@ -11,9 +11,9 @@ from helpers.epaper import setup_gpio, cleanup_gpio, exithandler, display_images
 
 
 def main(refresh_second):
-    print(f"refresh second: {refresh_second}")
     signal.signal(signal.SIGTERM, exithandler)
     signal.signal(signal.SIGINT, exithandler)
+    print(f"refresh second: {refresh_second}")
     
     setup_gpio()  # Set up the GPIO pins
     display_images(refresh_second)
