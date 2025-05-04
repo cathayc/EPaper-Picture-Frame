@@ -49,7 +49,7 @@ The setup script will:
 - Install required system dependencies
 - Create a Python virtual environment
 - Install Python packages
-- Set up the necessary configurations
+- Activate the virtual environment
 
 ## Configuration
 
@@ -74,45 +74,31 @@ The setup script will:
    python main.py
    ```
 
-3. Optional: Change the refresh rate (default is 15 seconds):
+3. Optional: Change the refresh rate (default is 100 seconds):
    ```bash
    python main.py --refresh-second 10
    ```
 
 ## Running at Startup
 
-1. Create a systemd service:
+1. Make the run script executable:
    ```bash
-   sudo nano /etc/systemd/system/epaper-frame.service
+   chmod +x run_script.sh
    ```
 
-2. Add the following content:
-   ```ini
-   [Unit]
-   Description=E-Paper Picture Frame
-   After=network.target
-
-   [Service]
-   Type=simple
-   User=pi
-   WorkingDirectory=/home/pi/EPaper-Picture-Frame
-   ExecStart=/home/pi/EPaper-Picture-Frame/.venv/bin/python main.py
-   Restart=always
-   RestartSec=10
-
-   [Install]
-   WantedBy=multi-user.target
-   ```
-
-3. Enable and start the service:
+2. Run the script to set up the systemd service:
    ```bash
-   sudo systemctl enable epaper-frame
-   sudo systemctl start epaper-frame
+   ./run_script.sh
    ```
 
-4. Check the status:
+3. Check the service status:
    ```bash
    sudo systemctl status epaper-frame
+   ```
+
+4. View the logs:
+   ```bash
+   journalctl -u epaper-frame
    ```
 
 ## Troubleshooting
@@ -120,3 +106,4 @@ The setup script will:
 - If images aren't displaying, check the permissions of the `Images` directory
 - For HEIC conversion issues, ensure `libheif-dev` and `libheif-examples` are installed
 - Check the systemd service logs: `journalctl -u epaper-frame`
+- Check the program output log: `cat ~/frame_script_output.log`
