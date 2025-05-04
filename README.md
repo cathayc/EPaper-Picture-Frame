@@ -1,68 +1,122 @@
-# Introduction
+# E-Paper Picture Frame
 
-This project is born out of curiousity on how ePaper displays work. It simply downloads the pictures from a Dropbox folder, loops them, and displays them on the ePaper display.
+This project creates a digital picture frame using a Raspberry Pi and an e-Paper display. It downloads images from a Google Drive folder and displays them on the e-Paper screen.
+
+## Features
+
+- Downloads images from Google Drive
+- Supports various image formats including HEIC
+- Automatic image conversion to compatible formats
+- Configurable refresh rate
+- Runs headless on Raspberry Pi
+
+## Hardware Requirements
+
+- Raspberry Pi (tested on Raspberry Pi OS)
+- SD card (for the Raspberry Pi)
+- Waveshare 7.5" e-Paper display (or compatible)
 
 ## Table Of Contents
 
-- [Install](#install)
+- [Installation](#installation)
+- [Configuration](#configuration)
 - [Usage](#usage)
+- [Running at Startup](#running-at-startup)
 
-## Install
+## Installation
 
-This installation instruction assumes you have access to your Raspberry Pi and that you have the hardware set up properly. AI Picture Frame requires [Python 3](https://www.python.org). It uses [FFmpeg](https://ffmpeg.org) via [ffmpeg-python](https://github.com/kkroening/ffmpeg-python) for video processing, [Pillow](https://python-pillow.org) for image processing, and [Omni-EPD](https://github.com/robweber/omni-epd) for loading the correct e-ink display driver.
+1. Enable SPI on your Raspberry Pi:
+   ```bash
+   sudo raspi-config
+   # Navigate to Interface Options > SPI
+   # Select Yes to enable SPI
+   # Select Finish to exit
+   ```
 
-On the Raspberry Pi (or after ssh-ing into the Raspberry Pi):
-0. Make sure SPI is enabled
-   * Run `sudo raspi-config`
-   * Navigate to `Interface Options` > `SPI`
-   * Select `Yes` to enable SPI.
-   * Select `<Finish>` to exit. Reboot if prompted.
-1. Set up environment
-   * Update package sources: `sudo apt update`
-   * Make sure git is installed: `sudo apt install git`
-   * Make sure pip is installed: `sudo apt install python3-pip`
-2. Clone this repo
-   * Create a new SSH key and add to your github [Instructions](https://phoenixnap.com/kb/git-clone-ssh)
-   * `git clone git@github.com:cathayc/EPaper-Picture-Frame.git`
-   * Navigate to the new the project directory: `cd EPaper-Picture-Frame/`
-4. Create a virtual environment and make sure requirements are installed
-   * `python3 -m venv .venv`
-   * `source .venv/bin/activate`
-   * `pip3 install -r requirements.txt`
-5. Test it out
-   * Run `python3 main.py`. If everything's installed properly, this should start playing all the pictures from the `Images/GeneralImages` directory.
-   * If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 main.py --refresh-second 10`.
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/EPaper-Picture-Frame.git
+   cd EPaper-Picture-Frame
+   ```
+
+3. Run the setup script:
+   ```bash
+   chmod +x setup.sh
+   ./setup.sh
+   ```
+
+The setup script will:
+- Install required system dependencies
+- Create a Python virtual environment
+- Install Python packages
+- Set up the necessary configurations
+
+## Configuration
+
+1. Create a `config.py` file in the root directory:
+   ```python
+   GOOGLE_DRIVE_FOLDER_ID = "your_folder_id_here"
+   ```
+
+2. Get your Google Drive folder ID:
+   - Open your Google Drive folder in a web browser
+   - The folder ID is in the URL: `https://drive.google.com/drive/folders/FOLDER_ID`
 
 ## Usage
-The main usage is to download and display pictures from a Dropbox folder. Take the following steps:
-1. Obtain your dropbox access key 
-2. Run `python3 main.py`. If everything's installed properly, this should start playing all the pictures from the `Images/GeneralImages` directory.
-3. If you'd like to change the refresh cadence, you can use the argument `--refresh-second`. The default is 15 seconds. Example call for refreshing images every 10 seconds: `python3 main.py --refresh-second 10`.
 
-### Prompted AI Images
-0. To generate AI images, you will need to create a leonardo.ai account. After doing so, you will obtain your own API key. Store this in the config file:
-1. Navigate to config.py file at root, and replace `"YOUR-API-KEY"` with your own API key.
-2. Call leonardo:
-   * Think of a prompt. Example: `cat chase horse in wild west`
-   * Add prompt to your call: `python3 main.py --call-leo "cat chase horse in wild west"`
-   * The program will now call leonardo with your prompt, download the images, and display on your epaper display.
+1. Activate the virtual environment:
+   ```bash
+   source .venv/bin/activate
+   ```
 
-## Making this script run at startup
+2. Run the program:
+   ```bash
+   python main.py
+   ```
 
-To make the script run at startup, you'll need to use the `run_script.sh` and `run_script.service` files found at the root of the directory.
+3. Optional: Change the refresh rate (default is 15 seconds):
+   ```bash
+   python main.py --refresh-second 10
+   ```
 
-1. At your home directory, add a cron job.
-   * Open up the crontab file: `contab -e`
-   * Add the line `@reboot /home/cathychang/run_script.sh > /home/cathychang/frame_script_output.log 2>&1`
-   * Save and exit (ctrl x + ctrl o)
-2. Permissions:
-   * Ensure that both the run_script.sh script and the main.py script have the execute permission:
-   * `chmod +x /path-to-EPaper-Picture-Frame/run_script.sh`
-3. Reboot and see whether there are errors.
-   * Reboot: `sudo reboot`
-   * See errors: Check out the logfile `/home/cathychang/frame_script_output.log` (in this case, it won't be cathychang, will need to replace)
+## Running at Startup
 
-  
+1. Create a systemd service:
+   ```bash
+   sudo nano /etc/systemd/system/epaper-frame.service
+   ```
 
+2. Add the following content:
+   ```ini
+   [Unit]
+   Description=E-Paper Picture Frame
+   After=network.target
 
+   [Service]
+   Type=simple
+   User=pi
+   WorkingDirectory=/home/pi/EPaper-Picture-Frame
+   ExecStart=/home/pi/EPaper-Picture-Frame/.venv/bin/python main.py
+   Restart=always
+   RestartSec=10
 
+   [Install]
+   WantedBy=multi-user.target
+   ```
+
+3. Enable and start the service:
+   ```bash
+   sudo systemctl enable epaper-frame
+   sudo systemctl start epaper-frame
+   ```
+
+4. Check the status:
+   ```bash
+   sudo systemctl status epaper-frame
+   ```
+
+## Troubleshooting
+
+- If images aren't displaying, check the permissions of the `Images` directory
+- For HEIC conversion issues, ensure `libheif-dev` and `libheif-examples` are installed
+- Check the systemd service logs: `journalctl -u epaper-frame`
