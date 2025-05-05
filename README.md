@@ -35,7 +35,7 @@ This project creates a digital picture frame using a Raspberry Pi and an e-Paper
 
 2. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/EPaper-Picture-Frame.git
+   git clone https://github.com/cathayc/EPaper-Picture-Frame.git
    cd EPaper-Picture-Frame
    ```
 
