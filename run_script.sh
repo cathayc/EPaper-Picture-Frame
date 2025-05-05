@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Get the current user and home directory
+CURRENT_USER=$(whoami)
+HOME_DIR=$(eval echo ~$CURRENT_USER)
+PROJECT_DIR="$HOME_DIR/EPaper-Picture-Frame"
+
 echo "Setting up systemd service..."
 # Create service file
 sudo tee /etc/systemd/system/epaper-frame.service > /dev/null << EOL
@@ -32,9 +37,6 @@ sudo systemctl start epaper-frame
 echo ""
 echo "To check service status, run:"
 echo "sudo systemctl status epaper-frame"
-
-# Get the current user's home directory
-HOME_DIR=$(eval echo ~$USER)
 
 # Change to the project directory
 cd "$(dirname "$0")"
